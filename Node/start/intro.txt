@@ -1,0 +1,66 @@
+node.js   -> already installed
+
+Node package manager
+    - npm
+    - yarn
+    - vite
+
+
+Use of Node
+    - Server Environment 
+
+
+
+
+
+
+
+
+
+
+####################
+NPM commands
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#################################################
