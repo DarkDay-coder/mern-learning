@@ -9,6 +9,7 @@ const readFilePro = (file) => {
       });
    });
 };
+console.log('1. will get dog image');
 
 const writeFilePro = (file, data) => {
    return new Promise((resolve, reject) => {
