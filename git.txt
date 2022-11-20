@@ -1,0 +1,66 @@
+-- version control
+-- Source code management
+
+-- Git install local machine
+
+project 
+- A     Nepal
+- B     Italy
+- C     USA
+
+
+
+- 2 services
+    - git service installed
+        - git scm
+    - online service from providers
+        - gitlab
+        - github
+        - bitbucket
+    
+tree based structure
+    - main branch => Trunk
+    - branches
+
+- CMD based
+    - branch 
+    - origin
+    - remote
+    - push
+    - pull / fetch / clone
+    - merge
+    - conflict / resolution
+    - status
+    - stash
+    - checkout 
+    - commit
+
+
+### Commands
+**One time Command
+git config --global user.name "Sibu Dhital"
+git config --global user.email "dhitalsibu3@gmail.com"
+
+
+
+*****************************
+To initialize git: 
+- git init 
+
+to add remote to existing directory
+- git remote add origin `url`
+
+*****************************
+to track the changes
+- git add .  // track
+to stage the changes 
+- git commit -m "commit message- Task-ID(if any)"  //stage
+- git log
+- git status
+to pull from remote
+- git pull origin -----
+- git remote 
+- git remote -v
+- git branch 
+- git push origin <current branch name>
+- git checkout <branch name>
