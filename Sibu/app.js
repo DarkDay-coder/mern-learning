@@ -1,8 +1,9 @@
 const fs = require('fs');
 const express = require('express');
 const app = express();
-const tours = require('./dev-data/data/tours-simple.json');
+// const tours = require('./dev-data/data/tours-simple.json');
 
+app.use(express.json());
 // app.get('/', (req, res) => {
 //    res.status(200).json({
 //       message: 'Hello from the server side!',
@@ -13,6 +14,10 @@ const tours = require('./dev-data/data/tours-simple.json');
 //    res.send('you can now post something')
 // })
 
+const tours = JSON.parse(
+   fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`)
+);
+
 app.get('/api/v1/tours', (req, res) => {
    res.status(200).json({
       status: 'success',
@@ -22,6 +27,7 @@ app.get('/api/v1/tours', (req, res) => {
       },
    });
 });
+
 
 const port = 5000;
 app.listen(port, 'localhost', () => {
