@@ -1,0 +1,43 @@
+## E-commerce:
+  ## Users: 
+      - Name:
+      - address:
+      - contact:
+      - role: 
+      - ID:
+      - email:
+      - password:
+      - 
+      - 
+  ## Brands: 
+      - Name: 
+      - type: 
+      - ID: 
+      - logo: 
+      - 
+
+  ## Products: 
+      - Name
+      - price
+      - type
+      - status: inStock, outOfStock
+      - SKU
+      - seller
+      - Brands
+      - description
+      - image
+      - discount
+      - ID
+
+  ## Order
+
+  ## offers
+
+
+  ## Vendor
+
+
+  ## Payment
+
+
+  ## 
