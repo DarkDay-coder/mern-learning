@@ -31,6 +31,26 @@ const getDogPic = async () => {
       console.log('Random dog image saved successfully');
    } catch (err) {
       console.log(err);
+      throw 'err'; 
    }
+   return '2: ready';
 };
-getDogPic();
+(async () => {
+   try{
+      console.log('1. will get dog image');
+      const x = await getDogPic();
+      console.log(x);
+      console.log('3. done getting dog image');
+
+   } catch(error) {
+      console.log('error: ' + error)
+   }
+})
+
+// console.log('1. will get dog image');
+// getDogPic().then((x) => {
+//    console.log(x);
+//    console.log('3. done getting dog image');
+// }).catch((err) => {
+//    console.log('error: ')
+// });
