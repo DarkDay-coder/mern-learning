@@ -1,9 +1,19 @@
 const fs = require('fs');
 const express = require('express');
 const app = express();
-// const tours = require('./dev-data/data/tours-simple.json');
 
+// Data Parser middleware 
 app.use(express.json());
+
+// Custom middle
+app.use((req, res, next) => {
+   console.log('Hello from my own middleware 🙌');
+   next();
+})
+app.use((req, res, next) => {
+   req.requestTime = new Date().toISOString();
+   next();
+});
 
 const tours = JSON.parse(
    fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`)
@@ -24,12 +34,14 @@ const getAllTours = (req, res) => {
 
 const getTourById = (req, res) => {
    console.log(req.params);
+   console.log(req.requestTime);
    const id = req.params.id * 1;
    const tour = tours.find((el) => el.id === id);
    if (tour) {
       res.status(200).json({
          status: 'success',
          result: tour.length,
+         requestedAt: req.requestTime,
          data: {
             tour,
          },
