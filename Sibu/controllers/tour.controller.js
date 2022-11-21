@@ -3,6 +3,17 @@ const tours = JSON.parse(
    fs.readFileSync(`${__dirname}/../dev-data/data/tours-simple.json`)
 );
 class TourController {
+   checkId = (req, res, next, val) => {
+      console.log(`Tour id is ${val}`);
+      if (req.params.id * 1 > tours.length) {
+         return res.status(404).json({
+            status: 'failed',
+            message: 'Invalid ID',
+         });
+      }
+      next();
+   };
+
    getAllTours = (req, res) => {
       console.log(
          'currently there are ' + tours[tours.length - 1].id + ' tour list'
@@ -21,21 +32,14 @@ class TourController {
       console.log(req.requestTime);
       const id = req.params.id * 1;
       const tour = tours.find((el) => el.id === id);
-      if (tour) {
-         res.status(200).json({
-            status: 'success',
-            result: tour.length,
-            requestedAt: req.requestTime,
-            data: {
-               tour,
-            },
-         });
-      } else {
-         res.status(400).json({
-            status: 'failure',
-            message: 'No tour found with that id',
-         });
-      }
+      res.status(200).json({
+         status: 'success',
+         result: tour.length,
+         requestedAt: req.requestTime,
+         data: {
+            tour,
+         },
+      });
    };
 
    createTour = (req, res) => {
@@ -59,12 +63,6 @@ class TourController {
    };
 
    updateTourById = (req, res) => {
-      if (req.params.id * 1 > tours.length) {
-         return res.status(404).json({
-            status: 'failed',
-            message: 'Invalid id provided',
-         });
-      }
       res.status(200).json({
          status: 'success',
          data: {
@@ -74,17 +72,10 @@ class TourController {
    };
 
    deleteTourById = (req, res) => {
-      if (req.params.id * 1 > tours.length) {
-         return res.status(404).json({
-            status: 'failed',
-            message: 'Invalid id provided',
-         });
-      }
       res.status(204).json({
          status: 'success',
          data: null,
       });
    };
 }
-
 module.exports = TourController;

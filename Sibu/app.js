@@ -18,7 +18,7 @@ app.use(express.json());
 
 // Custom middle
 app.use((req, res, next) => {
-   console.log('Hello from my own middleware 🙌');
+   console.log('Hello from my own middleware 👋');
    next();
 });
 app.use((req, res, next) => {
