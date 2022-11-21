@@ -15,9 +15,7 @@ class TourController {
    };
 
    getAllTours = (req, res) => {
-      console.log(
-         'currently there are ' + tours[tours.length - 1].id + ' tour list'
-      );
+      console.log('currently there are ' + tours.length + ' tours available');
       res.status(200).json({
          status: 'success',
          results: tours.length,
@@ -43,13 +41,13 @@ class TourController {
    };
 
    createTour = (req, res) => {
-      console.log(req.body);
-      const newID = tours[tours.length - 1].id + 1;
+      
+      const newID = tours.length;
       const newTour = Object.assign({ ID: newID }, req.body);
       tours.push(newTour);
 
       fs.writeFile(
-         `${__dirname}/dev-data/data/tours-simple.json`,
+         `${__dirname}/../dev-data/data/tours-simple.json`,
          JSON.stringify(tours),
          (err) => {
             res.status(201).json({
