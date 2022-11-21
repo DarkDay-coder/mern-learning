@@ -7,10 +7,10 @@ const app = express();
 // 1) MIDDLEWARE
 
 app.use(morgan('dev'));
-app.use(morgan('tiny'));
-app.use(morgan('combined'));
-app.use(morgan('common'));
-app.use(morgan('short'));
+// app.use(morgan('tiny'));
+// app.use(morgan('combined'));
+// app.use(morgan('common'));
+// app.use(morgan('short'));
 
 // Data Parser middleware
 app.use(express.json());
@@ -152,18 +152,27 @@ const deleteUserById = (req, res) => {
 };
 
 // 3) ROUTES
-
-app.route('/api/v1/tours').get(getAllTours).post(createTour);
-app.route('/api/v1/tours/:id')
+// tour routes
+const tourRouter = express.Router();
+tourRouter.route('/').get(getAllTours).post(createTour);
+tourRouter
+   .route('/:id')
    .get(getTourById)
    .patch(updateTourById)
    .delete(deleteTourById);
 
-app.route('/api/v1/users').get(getAllUsers).post(createUser);
-app.route('/api/v1/users/:id')
+// user route
+const userRouter = express.Router();
+userRouter.route('/').get(getAllUsers).post(createUser);
+userRouter
+   .route('/:id')
    .get(getUserById)
    .patch(updateUserById)
    .delete(deleteUserById);
+
+app.use('/api/v1/tours', tourRouter);
+app.use('/api/v1/users', userRouter);
+
 // 4) STARTED OUR SERVER
 
 const port = 5000;
