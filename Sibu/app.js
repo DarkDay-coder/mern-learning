@@ -1,15 +1,25 @@
 const fs = require('fs');
 const express = require('express');
+const morgan = require('morgan');
+
 const app = express();
 
-// Data Parser middleware 
+// 1) MIDDLEWARE
+
+app.use(morgan('dev'));
+app.use(morgan('tiny'));
+app.use(morgan('combined'));
+app.use(morgan('common'));
+app.use(morgan('short'));
+
+// Data Parser middleware
 app.use(express.json());
 
 // Custom middle
 app.use((req, res, next) => {
    console.log('Hello from my own middleware 🙌');
    next();
-})
+});
 app.use((req, res, next) => {
    req.requestTime = new Date().toISOString();
    next();
@@ -18,6 +28,8 @@ app.use((req, res, next) => {
 const tours = JSON.parse(
    fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`)
 );
+
+// 2) ROUTE HANDLERS
 
 const getAllTours = (req, res) => {
    console.log(
@@ -108,11 +120,15 @@ const deleteTourById = (req, res) => {
 // app.patch('/api/v1/tours/:id', updateTourById);
 // app.delete('/api/v1/tours/:id', deleteTourById);
 
+// 3) ROUTES
+
 app.route('/api/v1/tours').get(getAllTours).post(createTour);
 app.route('/api/v1/tours/:id')
    .get(getTourById)
    .patch(updateTourById)
    .delete(deleteTourById);
+
+// 4) STARTED OUR SERVER
 
 const port = 5000;
 app.listen(port, 'localhost', () => {
