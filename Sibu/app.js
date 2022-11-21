@@ -31,6 +31,7 @@ const tours = JSON.parse(
 
 // 2) ROUTE HANDLERS
 
+// tours route handlers
 const getAllTours = (req, res) => {
    console.log(
       'currently there are ' + tours[tours.length - 1].id + ' tour list'
@@ -114,11 +115,41 @@ const deleteTourById = (req, res) => {
    });
 };
 
-// app.get('/api/v1/tours', getAllTours);
-// app.get('/api/v1/tours/:id', getTourById);
-// app.post('/api/v1/tours', createTour);
-// app.patch('/api/v1/tours/:id', updateTourById);
-// app.delete('/api/v1/tours/:id', deleteTourById);
+// user route handlers
+const getAllUsers = (req, res) => {
+   res.status(500).json({
+      status: 'error',
+      message: 'This route is not defined yet',
+   });
+};
+
+const getUserById = (req, res) => {
+   res.status(500).json({
+      status: 'error',
+      message: 'This route is not defined yet',
+   });
+};
+
+const createUser = (req, res) => {
+   res.status(500).json({
+      status: 'error',
+      message: 'This route is not defined yet',
+   });
+};
+
+const updateUserById = (req, res) => {
+   res.status(500).json({
+      status: 'error',
+      message: 'This route is not defined yet',
+   });
+};
+
+const deleteUserById = (req, res) => {
+   res.status(500).json({
+      status: 'error',
+      message: 'This route is not defined yet',
+   });
+};
 
 // 3) ROUTES
 
@@ -128,6 +159,11 @@ app.route('/api/v1/tours/:id')
    .patch(updateTourById)
    .delete(deleteTourById);
 
+app.route('/api/v1/users').get(getAllUsers).post(createUser);
+app.route('/api/v1/users/:id')
+   .get(getUserById)
+   .patch(updateUserById)
+   .delete(deleteUserById);
 // 4) STARTED OUR SERVER
 
 const port = 5000;
