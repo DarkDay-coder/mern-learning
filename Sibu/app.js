@@ -62,7 +62,7 @@ const createTour = (req, res) => {
    );
 };
 
-const updateTour = (req, res) => {
+const updateTourById = (req, res) => {
    if (req.params.id * 1 > tours.length) {
       return res.status(404).json({
          status: 'failed',
@@ -77,7 +77,7 @@ const updateTour = (req, res) => {
    });
 };
 
-const deleteTour = (req, res) => {
+const deleteTourById = (req, res) => {
    if (req.params.id * 1 > tours.length) {
       return res.status(404).json({
          status: 'failed',
@@ -90,11 +90,17 @@ const deleteTour = (req, res) => {
    });
 };
 
-app.get('/api/v1/tours', getAllTours);
-app.get('/api/v1/tours/:id', getTourById);
-app.post('/api/v1/tours', createTour);
-app.patch('/api/v1/tours/:id', updateTour);
-app.delete('/api/v1/tours/:id', deleteTour);
+// app.get('/api/v1/tours', getAllTours);
+// app.get('/api/v1/tours/:id', getTourById);
+// app.post('/api/v1/tours', createTour);
+// app.patch('/api/v1/tours/:id', updateTourById);
+// app.delete('/api/v1/tours/:id', deleteTourById);
+
+app.route('/api/v1/tours').get(getAllTours).post(createTour);
+app.route('/api/v1/tours/:id')
+   .get(getTourById)
+   .patch(updateTourById)
+   .delete(deleteTourById);
 
 const port = 5000;
 app.listen(port, 'localhost', () => {
