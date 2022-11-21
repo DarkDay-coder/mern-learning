@@ -4,21 +4,12 @@ const app = express();
 // const tours = require('./dev-data/data/tours-simple.json');
 
 app.use(express.json());
-// app.get('/', (req, res) => {
-//    res.status(200).json({
-//       message: 'Hello from the server side!',
-//       app: 'Sibu',
-//    });
-// });
-// app.post('/', (req, res) => {
-//    res.send('you can now post something')
-// })
 
 const tours = JSON.parse(
    fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`)
 );
 
-app.get('/api/v1/tours', (req, res) => {
+const getAllTours = (req, res) => {
    console.log(
       'currently there are ' + tours[tours.length - 1].id + ' tour list'
    );
@@ -29,17 +20,11 @@ app.get('/api/v1/tours', (req, res) => {
          tours,
       },
    });
-});
+};
 
-app.get('/api/v1/tours/:id', (req, res) => {
+const getTourById = (req, res) => {
    console.log(req.params);
    const id = req.params.id * 1;
-   // if(id > tours.length){
-   //    return res.status(404).json({
-   //       status: 'failed',
-   //       message: 'Invalid id provided'
-   //    });
-   // };
    const tour = tours.find((el) => el.id === id);
    if (tour) {
       res.status(200).json({
@@ -55,9 +40,9 @@ app.get('/api/v1/tours/:id', (req, res) => {
          message: 'No tour found with that id',
       });
    }
-});
+};
 
-app.post('/api/v1/tours', (req, res) => {
+const createTour = (req, res) => {
    console.log(req.body);
    const newID = tours[tours.length - 1].id + 1;
    const newTour = Object.assign({ ID: newID }, req.body);
@@ -75,35 +60,41 @@ app.post('/api/v1/tours', (req, res) => {
          });
       }
    );
-});
+};
 
-app.patch('/api/v1/tours/:id', (req, res) => {
-   if(req.params.id *1 > tours.length){
+const updateTour = (req, res) => {
+   if (req.params.id * 1 > tours.length) {
       return res.status(404).json({
          status: 'failed',
          message: 'Invalid id provided',
-   });
-};
+      });
+   }
    res.status(200).json({
       status: 'success',
-      data:{
+      data: {
          tour: '<updated tour here>',
-      }
-   })
-});
+      },
+   });
+};
 
-app.delete('/api/v1/tours/:id', (req, res) => {
-   if(req.params.id *1 > tours.length){
+const deleteTour = (req, res) => {
+   if (req.params.id * 1 > tours.length) {
       return res.status(404).json({
          status: 'failed',
          message: 'Invalid id provided',
-   });
-};
+      });
+   }
    res.status(204).json({
       status: 'success',
-      data: null
+      data: null,
    });
-})
+};
+
+app.get('/api/v1/tours', getAllTours);
+app.get('/api/v1/tours/:id', getTourById);
+app.post('/api/v1/tours', createTour);
+app.patch('/api/v1/tours/:id', updateTour);
+app.delete('/api/v1/tours/:id', deleteTour);
 
 const port = 5000;
 app.listen(port, 'localhost', () => {
