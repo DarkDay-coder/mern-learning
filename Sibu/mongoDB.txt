@@ -6,3 +6,7 @@ mongoDB
    data are stored as json format that contains key value pairs
    data in mongoDB is called BSON format i.e. each field has its data type 
    
+Mongoose: 
+   it is an ODM library for mongoDB and node.js 
+   mongoose allows faster and simpler interaction with mongo server
+   
