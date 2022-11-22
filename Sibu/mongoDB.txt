@@ -1,0 +1,8 @@
+mongoDB
+   it is an NoSQL database.
+   we find collections instead of tables. 
+   collections contains documents 
+   each documents contains data about single entity  
+   data are stored as json format that contains key value pairs
+   data in mongoDB is called BSON format i.e. each field has its data type 
+   
