@@ -6,12 +6,13 @@ const tourRouter = require('./routes/tour.routes');
 const userRouter = require('./routes/user.routes');
 
 // 1) MIDDLEWARE
-
-app.use(morgan('dev'));
-// app.use(morgan('tiny'));
-// app.use(morgan('combined'));
-// app.use(morgan('common'));
-// app.use(morgan('short'));
+if (process.env.NODE_ENV !== 'production') {
+   app.use(morgan('dev'));
+   // app.use(morgan('tiny'));
+   // app.use(morgan('combined'));
+   // app.use(morgan('common'));
+   // app.use(morgan('short'));
+}
 
 // Data Parser middleware
 app.use(express.json());
