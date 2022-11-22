@@ -11,12 +11,10 @@ router.param('id', tour_cont.checkId);
 // if not send 400(bad request) as response
 // add it to post handler stack
 
-
-
 router
    .route('/')
    .get(tour_cont.getAllTours)
-   .post( tour_cont.createTour);
+   .post(tour_cont.checkBody, tour_cont.createTour);
 router
    .route('/:id')
    .get(tour_cont.getTourById)

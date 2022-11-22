@@ -13,6 +13,15 @@ class TourController {
       }
       next();
    };
+   checkBody = (req, res, next) => {
+      if (!req.body.name || !req.body.price) {
+         return res.status(400).json({
+            status: 'failed',
+            message: 'Missing Name or Price',
+         });
+      }
+      next();
+   };
 
    getAllTours = (req, res) => {
       console.log('currently there are ' + tours.length + ' tours available');
@@ -41,7 +50,6 @@ class TourController {
    };
 
    createTour = (req, res) => {
-      
       const newID = tours.length;
       const newTour = Object.assign({ ID: newID }, req.body);
       tours.push(newTour);
