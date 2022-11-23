@@ -33,6 +33,8 @@ class TourController {
          excludeField.forEach((el) => delete queryObj[el]);
          console.log(req.query, queryObj);
 
+         // const query = TourModel.find(queryObj);
+
          // 2) ADVANCE FILTERING
          let queryStr = JSON.stringify(queryObj);
          queryStr = queryStr.replace(
@@ -47,8 +49,15 @@ class TourController {
          //    .equals(5)
          //    .where('difficulty')
          //    .equals('easy');
-         const query = TourModel.find(JSON.parse(queryStr));
+         let query = TourModel.find(JSON.parse(queryStr));
 
+         // 3) SORTING
+         if (req.query.sort) {
+            const sortBy = req.query.sort.split(',').join(' ');
+            query = query.sort(sortBy);
+         } else {
+            query = query.sort('-createdAt');
+         }
          // EXECUTE THE QUERY
          const tours = await query;
          // const tours = await TourModel.find();
