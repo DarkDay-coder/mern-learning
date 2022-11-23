@@ -1,6 +1,7 @@
 const TourModel = require('./../models/tour.model');
 const fs = require('fs');
 const Tour = require('./../models/tour.model');
+const { query } = require('express');
 
 class TourController {
    createTour = async (req, res) => {
@@ -25,7 +26,25 @@ class TourController {
 
    getAllTours = async (req, res) => {
       try {
-         const tours = await TourModel.find();
+         // BUILD THE QUERY
+         const queryObj = { ...req.query };
+         const excludeField = ['page', 'sort', 'limit', 'fileds'];
+         excludeField.forEach((el) => delete queryObj[el]);
+         console.log(req.query, queryObj);
+
+         // const tours = await TourModel.find()
+         //    .where('duration')
+         //    .equals(5)
+         //    .where('difficulty')
+         //    .equals('easy');
+
+         const query = TourModel.find(queryObj);
+
+         // EXECUTE THE QUERY
+         const tours = await query;
+         // const tours = await TourModel.find();
+
+         // SEND RESPONSE
          res.status(200).json({
             status: 'succeed!',
             result: tours.length,
