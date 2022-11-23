@@ -27,18 +27,27 @@ class TourController {
    getAllTours = async (req, res) => {
       try {
          // BUILD THE QUERY
+         // 1) FILTERING
          const queryObj = { ...req.query };
          const excludeField = ['page', 'sort', 'limit', 'fileds'];
          excludeField.forEach((el) => delete queryObj[el]);
          console.log(req.query, queryObj);
+
+         // 2) ADVANCE FILTERING
+         let queryStr = JSON.stringify(queryObj);
+         queryStr = queryStr.replace(
+            /\b(gte|gt|lte|lt)\b/g,
+            (match) => `$${match}`
+         );
+         console.log(JSON.parse(queryStr));
+         // {difficulty: 'easy', duration: {$gte: 5}} => mongodb filter for >=
 
          // const tours = await TourModel.find()
          //    .where('duration')
          //    .equals(5)
          //    .where('difficulty')
          //    .equals('easy');
-
-         const query = TourModel.find(queryObj);
+         const query = TourModel.find(JSON.parse(queryStr));
 
          // EXECUTE THE QUERY
          const tours = await query;
