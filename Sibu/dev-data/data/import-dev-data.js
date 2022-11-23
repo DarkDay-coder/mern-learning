@@ -22,6 +22,7 @@ const importData = async () => {
    try {
       await TourModel.create(tours);
       console.log('data imported on database successfully 😎🤷‍♂️🤷‍♂️🙌🙌');
+      process.exit();
    } catch (error) {
       console.log('Error during data Importing 🤷‍♀️🤷‍♂️🤷‍♀️🤷‍♂️🤷‍♀️🤷‍♂️ ' + error);
    }
@@ -33,6 +34,7 @@ const deleteData = async () => {
    try {
       await TourModel.deleteMany();
       console.log('data deleted from database successfully 😎🤷‍♂️🤷‍♂️🙌🙌');
+      process.exit();
    } catch (error) {
       console.log('Error during data deletion 🤷‍♀️🤷‍♂️🤷‍♀️🤷‍♂️🤷‍♀️🤷‍♂️ ' + error);
    }
