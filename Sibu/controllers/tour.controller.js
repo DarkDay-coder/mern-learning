@@ -116,5 +116,43 @@ class TourController {
          });
       }
    };
+
+   // AGGREGATION PIPELINE
+   getTourStats = async (req, res) => {
+      try {
+         const stats = await TourModel.aggregate([
+            {
+               $match: { ratingsAverage: { $gte: 4.5 } },
+            },
+            {
+               $group: {
+                  // _id: '$difficulty',
+                  _id: { $toUpper: '$difficulty' },
+                  numOfTours: { $sum: 1 },
+                  numRatings: { $sum: '$ratingsQuantity' },
+                  avgRating: { $avg: '$ratingsAverage' },
+                  avgPrice: { $avg: '$price' },
+                  minPrice: { $min: '$price' },
+                  maxPrice: { $max: '$price' },
+               },
+            },
+            {
+               $sort: {
+                  avgPrice: 1,
+               },
+            },
+         ]);
+         res.status(200).json({
+            status: 'success',
+            data: stats,
+         });
+      } catch (error) {
+         console.log(error);
+         res.status(404).json({
+            status: 'failed',
+            message: error + 'error',
+         });
+      }
+   };
 }
 module.exports = TourController;

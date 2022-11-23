@@ -12,6 +12,7 @@ router
    .route('/top-5-cheap')
    .get(tour_cont.aliasTopTours, tour_cont.getAllTours);
 
+router.route('/tour-stats').get(tour_cont.getTourStats);
 router.route('/').get(tour_cont.getAllTours).post(tour_cont.createTour);
 router
    .route('/:id')
