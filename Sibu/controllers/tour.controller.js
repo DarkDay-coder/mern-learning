@@ -4,6 +4,14 @@ const Tour = require('./../models/tour.model');
 const { query } = require('express');
 
 class TourController {
+   aliasTopTours = (req, res, next) => {
+      console.log('Im on alias middleware');
+      req.query.limit = '5';
+      req.query.sort = '-ratingAverage, price';
+      req.query.fields = 'name, price, ratingAverage, summary, difficulty';
+      next();
+   };
+
    createTour = async (req, res) => {
       // const newTour = new TourModel({});
       // newTour.save();
@@ -25,13 +33,14 @@ class TourController {
    };
 
    getAllTours = async (req, res) => {
+      console.log('now i reach get all tour function');
       try {
          // BUILD THE QUERY
          // 1) FILTERING
          const queryObj = { ...req.query };
          const excludeField = ['page', 'sort', 'limit', 'fileds'];
          excludeField.forEach((el) => delete queryObj[el]);
-         console.log(req.query, queryObj);
+         // console.log(req.query, queryObj);
 
          // const query = TourModel.find(queryObj);
 

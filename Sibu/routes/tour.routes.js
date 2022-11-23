@@ -7,6 +7,11 @@ const tour_cont = new TourController();
 // router.param('id', tour_cont.checkId);
 
 // CRUD operation
+
+router
+   .route('/top-5-cheap')
+   .get(tour_cont.aliasTopTours, tour_cont.getAllTours);
+
 router.route('/').get(tour_cont.getAllTours).post(tour_cont.createTour);
 router
    .route('/:id')
