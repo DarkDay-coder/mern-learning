@@ -28,7 +28,7 @@ class TourController {
       } catch (error) {
          res.status(400).json({
             status: 'failed',
-            message: 'Invalid data sent!!',
+            message: error,
          });
       }
    };
@@ -94,9 +94,9 @@ class TourController {
             data: tour,
          });
       } catch (error) {
-         res.status(404).json({
+         res.status(400).json({
             status: 'failed',
-            message: error + 'error',
+            message: error,
          });
       }
    };
