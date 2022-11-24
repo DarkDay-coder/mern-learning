@@ -87,8 +87,16 @@ tourSchema.post('save', function (doc, next) {
 });
 
 // QUERY MIDDLEWARE
-tourSchema.pre('find', function (next) {
+// tourSchema.pre('find', function (next) {  //this works for find() method
+tourSchema.pre(/^find/, function (next) {
+   //this is for findOne() or findById() method
    this.find({ secretTour: { $ne: true } });
+   this.start = Date.now();
+   next();
+});
+tourSchema.post(/^find/, function (docs, next) {
+   console.log(docs);
+   console.log(`Query took ${Date.now() - this.start} milliseconds`);
    next();
 });
 const Tour = mongoose.model('Tour', tourSchema);
