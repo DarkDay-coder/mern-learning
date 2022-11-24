@@ -3,4 +3,6 @@ error handling in node.js(express)
 Debugging node.js with NDB
    NDB is released by google which stands for node Debugger
    it is an npm package
+      ### npm run debug 
+   
    
