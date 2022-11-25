@@ -14,30 +14,30 @@ const sendErrDev = (err, res) => {
       stack: err.stack,
    });
 };
-const sendErrProd = (err, res) => {
-   // Operational error, trusted error: send message to client
-   if (err.isOperation) {
-      console.log('im on production err - if block');
-      res.status(err.statusCode).json({
-         status: err.status,
-         message: err.message,
-      });
-   }
-   // Programming or other unknown error: don't leak error details
-   else {
-      console.log('im on production err - else block');
+// const sendErrProd = (err, res) => {
+//    // Operational error, trusted error: send message to client
+//    if (err.isOperation) {
+//       console.log('im on production err - if block');
+//       res.status(err.statusCode).json({
+//          status: err.status,
+//          message: err.message,
+//       });
+//    }
+//    // Programming or other unknown error: don't leak error details
+//    else {
+//       console.log('im on production err - else block');
 
-      // 1. LOG ERROR
-      console.error('ERROR 👀', err);
+//       // 1. LOG ERROR
+//       console.error('ERROR 👀', err);
 
-      // 2. SEND GENERIC MESSAGE
+//       // 2. SEND GENERIC MESSAGE
 
-      res.status(500).json({
-         status: 'error',
-         message: 'something went wrong',
-      });
-   }
-};
+//       res.status(500).json({
+//          status: 'error',
+//          message: 'something went wrong',
+//       });
+//    }
+// };
 
 module.exports = (err, req, res, next) => {
    err.statusCode = err.statusCode || 500;
@@ -51,9 +51,19 @@ module.exports = (err, req, res, next) => {
       console.log(err.name);
 
       if (err.name === 'CastError') {
-         console.log('error handling process is now on handleCastErrorDB');
+         console.log('error handling process is now on Cast Error');
          const message = `Invalid ${err.path}: ${err.value}`;
          res.status(404).json({
+            status: 'failed',
+            message: message,
+         });
+      }
+      if (err.code === 11000) {
+         console.log('error handling process is now on Duplicate key Error');
+         const value = err.errmsg.match(/(["'])(\\?.)*?\1/)[0];
+         console.log(value);
+         const message = `Duplicate filed value: ${value}. Please use another value!`;
+         res.status(400).json({
             status: 'failed',
             message: message,
          });
