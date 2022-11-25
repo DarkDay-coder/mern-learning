@@ -1,6 +1,6 @@
 const express = require('express');
 const morgan = require('morgan');
-const apiError = require('./middleware/error.middleware');
+const apiError = require('./middleware/apiError.middleware');
 const globalErrorHandler = require('./controllers/apierror.controller');
 const app = express();
 

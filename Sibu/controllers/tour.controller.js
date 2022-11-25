@@ -4,6 +4,7 @@ const Tour = require('./../models/tour.model');
 const { query } = require('express');
 const APIFeatures = require('./../middleware/apiFeatures.middleware');
 const catchAsync = require('../middleware/catchAsync');
+const apiError = require('../middleware/apiError.middleware');
 
 class TourController {
    aliasTopTours = (req, res, next) => {
@@ -39,6 +40,9 @@ class TourController {
    getTourById = catchAsync(async (req, res, next) => {
       console.log('requested data is having id: ' + req.params.id);
       const tour = await TourModel.findById(req.params.id); // TourModel.findOne({_id : req.params.id})
+      if (!tour) {
+         return next(new apiError('No tour found with that ID', 404));
+      }
       res.status(200).json({
          status: 'succeed!',
          data: tour,
@@ -48,10 +52,13 @@ class TourController {
    updateTourById = catchAsync(async (req, res, next) => {
       console.log('the update request is for id: ' + req.params.id);
       const tour = await TourModel.findByIdAndUpdate(req.params.id, req.body, {
-         upsert: true,
+         // upsert: true,
          new: true,
          runValidators: true,
       });
+      if (!tour) {
+         return next(new apiError('No tour found with that ID', 404));
+      }
       res.status(200).json({
          status: 'success',
          data: tour,
@@ -61,6 +68,9 @@ class TourController {
    deleteTourById = catchAsync(async (req, res, next) => {
       console.log('the delete request is for id: ' + req.params.id);
       const tour = await TourModel.findByIdAndDelete(req.params.id);
+      if (!tour) {
+         return next(new apiError('No tour found with that ID', 404));
+      }
       res.status(204).json({
          status: 'success',
          data: null,
