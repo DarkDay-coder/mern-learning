@@ -1,12 +1,12 @@
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
+dotenv.config({ path: './config.env' });
 const app = require('./app');
 
 console.log(app.get('env'));
 // const DB = 'mongodb://localhost:27017/Tour-project'
 const DB =
    'mongodb+srv://sibu:rdsibu@cluster0.muj4e4t.mongodb.net/Tour-project';
-dotenv.config({ path: './config.env' });
 mongoose.connect(DB, (err) => {
    if (err) {
       console.error('Error during mongoDB connection');
@@ -22,4 +22,4 @@ app.listen(port, 'localhost', () => {
    console.log(`app listening on endpoint ${port}`);
 });
 
-//testing from ndb debugging   
+//testing from ndb debugging
