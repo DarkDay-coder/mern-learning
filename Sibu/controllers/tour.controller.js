@@ -13,7 +13,7 @@ class TourController {
       req.query.fields = 'name, price, ratingAverage, summary, difficulty';
       next();
    };
-   createTour = catchAsync(async (req, res) => {
+   createTour = catchAsync(async (req, res, next) => {
       const newTour = await TourModel.create(req.body);
       res.status(201).json({
          status: 'success',
@@ -21,7 +21,7 @@ class TourController {
       });
    });
 
-   getAllTours = catchAsync(async (req, res) => {
+   getAllTours = catchAsync(async (req, res, next) => {
       console.log('now i reach get all tour function');
       const features = new APIFeatures(Tour.find(), req.query)
          .filter()
@@ -36,7 +36,7 @@ class TourController {
       });
    });
 
-   getTourById = catchAsync(async (req, res) => {
+   getTourById = catchAsync(async (req, res, next) => {
       console.log('requested data is having id: ' + req.params.id);
       const tour = await TourModel.findById(req.params.id); // TourModel.findOne({_id : req.params.id})
       res.status(200).json({
@@ -45,7 +45,7 @@ class TourController {
       });
    });
 
-   updateTourById = catchAsync(async (req, res) => {
+   updateTourById = catchAsync(async (req, res, next) => {
       console.log('the update request is for id: ' + req.params.id);
       const tour = await TourModel.findByIdAndUpdate(req.params.id, req.body, {
          upsert: true,
@@ -58,7 +58,7 @@ class TourController {
       });
    });
 
-   deleteTourById = catchAsync(async (req, res) => {
+   deleteTourById = catchAsync(async (req, res, next) => {
       console.log('the delete request is for id: ' + req.params.id);
       const tour = await TourModel.findByIdAndDelete(req.params.id);
       res.status(204).json({
@@ -68,7 +68,7 @@ class TourController {
    });
 
    // AGGREGATION PIPELINE
-   getTourStats = catchAsync(async (req, res) => {
+   getTourStats = catchAsync(async (req, res, next) => {
       const stats = await TourModel.aggregate([
          {
             $match: { ratingsAverage: { $gte: 4.5 } },
@@ -97,7 +97,7 @@ class TourController {
       });
    });
 
-   getMonthlyPlan = catchAsync(async (req, res) => {
+   getMonthlyPlan = catchAsync(async (req, res, next) => {
       const year = req.params.year * 1;
       const plan = await TourModel.aggregate([
          {
