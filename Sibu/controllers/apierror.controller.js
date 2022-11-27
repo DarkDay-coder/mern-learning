@@ -50,6 +50,7 @@ module.exports = (err, req, res, next) => {
 
       console.log(err.name);
 
+      // OBJECT TO ID CAST ERROR
       if (err.name === 'CastError') {
          console.log('error handling process is now on Cast Error');
          const message = `Invalid ${err.path}: ${err.value}`;
@@ -60,6 +61,8 @@ module.exports = (err, req, res, next) => {
             message: message,
          });
       }
+
+      // DUPLICATE FILED NAME ERROR
       if (err.code === 11000) {
          console.log('error handling process is now on Duplicate key Error');
          const value = err.errmsg.match(/(["'])(\\?.)*?\1/)[0];
@@ -71,6 +74,8 @@ module.exports = (err, req, res, next) => {
             message: message,
          });
       }
+
+      // MONGOOSE VALIDATION ERROR
       if (err.name === 'ValidationError') {
          const message = 'Invalid Input Data';
          // return new apiError(message, 400);
