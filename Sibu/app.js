@@ -21,12 +21,14 @@ app.use(express.json());
 app.use(express.static(`${__dirname}/public`));
 
 // Custom middle
-// app.use((req, res, next) => {
-//    console.log('Hello from my own middleware 👋');
-//    next();
-// });
+app.use((req, res, next) => {
+   console.log('Hello from my own middleware 👋');
+   next();
+});
 app.use((req, res, next) => {
    req.requestTime = new Date().toISOString();
+   console.log(req.requestTime);
+   // console.log(req.headers);
    next();
 });
 

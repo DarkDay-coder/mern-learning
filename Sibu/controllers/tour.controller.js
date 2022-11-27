@@ -23,7 +23,7 @@ class TourController {
    });
 
    getAllTours = catchAsync(async (req, res, next) => {
-      console.log('now i reach get all tour function');
+      console.log('Hello from getAllTours()');
       const features = new APIFeatures(Tour.find(), req.query)
          .filter()
          .sort()

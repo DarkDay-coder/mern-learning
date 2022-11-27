@@ -85,6 +85,23 @@ module.exports = (err, req, res, next) => {
          });
       }
 
+      // JWT VALIDATION ERROR
+      if (err.name === 'JsonWebTokenError') {
+         const message = 'Invalid token. Please log in again!';
+         res.status(401).json({
+            status: 'failed',
+            message: message,
+         });
+      }
+
+      if (err.name === 'TokenExpiredError') {
+         const message = 'Your token has expired, Please login again!!';
+         res.status(401).json({
+            status: 'failed',
+            message: message,
+         });
+      }
+
       res.status(500).json({
          status: 'failed',
          message: err.name,
