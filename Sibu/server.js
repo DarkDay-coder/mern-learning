@@ -9,13 +9,15 @@ const DB =
    'mongodb+srv://sibu:rdsibu@cluster0.muj4e4t.mongodb.net/Tour-project';
 mongoose.connect(DB, (err) => {
    if (err) {
+      console.log(err.name, err.message); // display the cause of error for database conenction
       console.error('Error during mongoDB connection');
+      console.log('UNHANDLED REJECTION!! 🤦‍♂️🤦‍♂️ Shutting Down...');
+      process.exit(1);
    } else {
       // console.log(mongoose.connections);
       console.log('MongoDB connected successfully');
    }
 });
-
 const port = process.env.PORT || 5000;
 app.listen(port, 'localhost', () => {
    console.log(`Server is running using port number: ${port}`);
@@ -23,3 +25,8 @@ app.listen(port, 'localhost', () => {
 });
 
 //testing from ndb debugging
+
+// UNHANDLED REJECTION
+process.on('unhandledRejection', (err) => {
+   console.log(err.name, err.message);
+});
