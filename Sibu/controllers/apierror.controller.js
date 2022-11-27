@@ -53,6 +53,8 @@ module.exports = (err, req, res, next) => {
       if (err.name === 'CastError') {
          console.log('error handling process is now on Cast Error');
          const message = `Invalid ${err.path}: ${err.value}`;
+         // return new apiError(message, 400)
+
          res.status(404).json({
             status: 'failed',
             message: message,
@@ -63,11 +65,25 @@ module.exports = (err, req, res, next) => {
          const value = err.errmsg.match(/(["'])(\\?.)*?\1/)[0];
          console.log(value);
          const message = `Duplicate filed value: ${value}. Please use another value!`;
+         // return new apiError(message, 400)
          res.status(400).json({
             status: 'failed',
             message: message,
          });
       }
+      if (err.name === 'ValidationError') {
+         const message = 'Invalid Input Data';
+         // return new apiError(message, 400);
+         res.status(400).json({
+            status: 'failed',
+            message: message,
+         });
+      }
+
+      res.status(500).json({
+         status: 'failed',
+         message: err.name,
+      });
    }
 };
 
