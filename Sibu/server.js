@@ -11,8 +11,7 @@ mongoose.connect(DB, (err) => {
    if (err) {
       console.log(err.name, err.message); // display the cause of error for database conenction
       console.error('Error during mongoDB connection');
-      console.log('UNHANDLED REJECTION!! 🤦‍♂️🤦‍♂️ Shutting Down...');
-      process.exit(1);
+      console.log('UNHANDLED REJECTION!! 🤦‍♂️🤦‍♂️ ');
    } else {
       // console.log(mongoose.connections);
       console.log('MongoDB connected successfully');
@@ -30,3 +29,12 @@ app.listen(port, 'localhost', () => {
 process.on('unhandledRejection', (err) => {
    console.log(err.name, err.message);
 });
+
+// UNCAUGHT EXCEPTION HANDLING
+process.on('uncaughtException', (err) => {
+   console.log('uncaught exception occur 🤦‍♂️🤦‍♂️');
+   console.log(err.name, err.message);
+   process.exit(1);
+});
+
+console.log(x);
