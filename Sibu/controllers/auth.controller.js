@@ -42,7 +42,7 @@ class authController {
          .findOne({ email: body.email })
          .select('+password');
       if (!user) {
-         return next(new apiError('The user is not found on database', 401));
+         return next(new apiError('Incorrect email or password', 401));
       }
       const pass = await bcrypt.compare(req.body.password, user.password);
       if (!user || !pass) {
