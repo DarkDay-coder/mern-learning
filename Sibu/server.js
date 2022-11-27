@@ -37,4 +37,4 @@ process.on('uncaughtException', (err) => {
    process.exit(1);
 });
 
-console.log(x);
+// console.log(x);
