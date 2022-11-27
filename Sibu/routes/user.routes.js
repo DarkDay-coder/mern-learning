@@ -6,6 +6,7 @@ const AuthController = require('./../controllers/auth.controller');
 const auth_cont = new AuthController();
 
 router.post('/signup', auth_cont.signup);
+router.post('/login', auth_cont.login);
 
 router.route('/').get(user_cont.getAllUsers).post(user_cont.createUser);
 router

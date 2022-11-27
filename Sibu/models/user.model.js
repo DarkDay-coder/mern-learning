@@ -21,6 +21,7 @@ const userSchema = new mongoose.Schema({
    password: {
       type: String,
       required: [true, 'Please provide password'],
+      select: false,
    },
    confirmPassword: {
       type: String,
@@ -32,6 +33,7 @@ const userSchema = new mongoose.Schema({
          },
          message: 'Password you entered are not same',
       },
+      select: false,
    },
 });
 
@@ -47,6 +49,12 @@ userSchema.pre('save', async function (next) {
    next();
 });
 
+// userSchema.methods.correctPassword = async function (
+//    candidatePassword,
+//    userPassword
+// ) {
+//    return await bcrypt.compare(candidatePassword, userPassword);
+// };
 const User = mongoose.model('user', userSchema);
 
 module.exports = User;
