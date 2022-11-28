@@ -20,6 +20,9 @@ WORKING OF JWT
 
 Authorization
 
+it is a process of allowing only user with certain role to perform certain action.
+we need to check whether the logged in user has access to perform certain action or not.
+
 ###
 
 Authentication
