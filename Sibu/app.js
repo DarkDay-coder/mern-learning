@@ -1,6 +1,8 @@
 const express = require('express');
 const app = express();
 const morgan = require('morgan');
+const mongoSanitize = require('express-mongo-sanitize');
+const xss = require('xss-clean');
 const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
 const apiError = require('./middleware/apiError.middleware');
@@ -38,6 +40,12 @@ app.use(
       extended: false,
    })
 );
+
+// DATA SANITIZATION AGAINST NoSQL QUERY INJECTION
+app.use(mongoSanitize());
+
+// DATA SANITIZATION AGAINST XSS
+app.use(xss());
 
 // PUBLISHING STATIC FILES
 app.use(express.static(`${__dirname}/public`));

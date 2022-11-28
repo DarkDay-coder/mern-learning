@@ -36,3 +36,9 @@ Password reset function
 1. user sent forget password req with their email address
 2. create a reset token and send back to the email address provided
 3.
+
+we can enter into system with password only {{{email: {$gt: ""}}}}
+the email expression becomes true always hence need data sanitization
+to avoid this we use express-mongo-sanitize package
+
+xss package
