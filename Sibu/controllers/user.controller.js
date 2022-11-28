@@ -75,5 +75,13 @@ class UserController {
          data: updatedUser,
       });
    });
+
+   deleteUser = catchAsync(async (req, res, next) => {
+      await userModel.findByIdAndDelete(req.user.id);
+      res.status(204).json({
+         status: 'success',
+         data: null,
+      });
+   });
 }
 module.exports = UserController;
