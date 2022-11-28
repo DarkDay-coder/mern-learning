@@ -19,12 +19,12 @@ router.route('/tour-stats').get(tour_cont.getTourStats);
 router.route('/monthly-plan/:year').get(tour_cont.getMonthlyPlan);
 router
    .route('/')
-   .get(auth_mid.authorize, tour_cont.getAllTours)
-   .post(tour_cont.createTour);
+   .get(tour_cont.getAllTours)
+   .post(auth_mid.authorize, auth_mid.restrictTo, tour_cont.createTour);
 router
    .route('/:id')
    .get(tour_cont.getTourById)
-   .patch(tour_cont.updateTourById)
-   .delete(tour_cont.deleteTourById);
+   .patch(auth_mid.authorize, auth_mid.restrictTo, tour_cont.updateTourById)
+   .delete(auth_mid.authorize, auth_mid.restrictTo, tour_cont.deleteTourById);
 
 module.exports = router;
