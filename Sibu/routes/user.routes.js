@@ -12,6 +12,7 @@ router.post('/login', auth_cont.login);
 router.post('/forgetPassword', auth_cont.forgetPassword);
 router.patch('/resetPassword/:token', auth_cont.resetPassword);
 router.patch('/updateMyPassword', auth_mid.authorize, auth_cont.updatePassword);
+router.patch('/updateUser', auth_mid.authorize, user_cont.updateUser);
 
 router.route('/').get(user_cont.getAllUsers).post(user_cont.createUser);
 router
