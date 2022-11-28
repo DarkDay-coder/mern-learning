@@ -5,6 +5,7 @@ const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
+const hpp = require('hpp');
 const apiError = require('./middleware/apiError.middleware');
 const globalErrorHandler = require('./controllers/apierror.controller');
 
@@ -46,6 +47,20 @@ app.use(mongoSanitize());
 
 // DATA SANITIZATION AGAINST XSS
 app.use(xss());
+
+// PREVENT PARAMETER POLLUTION
+app.use(
+   hpp({
+      whitelist: [
+         'duration',
+         'ratingQuantity',
+         'ratingsAverage',
+         'maxGroupSize',
+         'difficulty',
+         'price',
+      ],
+   })
+);
 
 // PUBLISHING STATIC FILES
 app.use(express.static(`${__dirname}/public`));

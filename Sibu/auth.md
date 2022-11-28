@@ -41,4 +41,9 @@ we can enter into system with password only {{{email: {$gt: ""}}}}
 the email expression becomes true always hence need data sanitization
 to avoid this we use express-mongo-sanitize package
 
-xss package
+xss package to avoid data with html codes
+
+###
+
+to avoid parameter polution we use hpp package (http parameter polution)
+parameter polution is simply making the app down coz of query on url
