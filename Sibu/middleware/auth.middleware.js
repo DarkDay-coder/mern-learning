@@ -38,6 +38,28 @@ class authMiddleware {
       }
 
       req.user = isUser;
+      // console.log(req.user);
+      console.log('authorization completed');
+      next();
+   });
+
+   restrictTo = catchAsync(async (req, res, next) => {
+      // roles ['admin', 'lead-guide']  role = 'user'
+      console.log(req.user.role);
+      // console.log(req.user.role === 'admin');
+      // console.log(!(req.user.role === 'admin'));
+
+      if (!(req.user.role === 'admin')) {
+         // || !req.user.role === 'lead-guide'
+         console.log('restriction failed');
+         return next(
+            new apiError(
+               'You do not have permission to perform this action',
+               403
+            )
+         );
+      }
+      console.log('restriction passed');
       next();
    });
 }
