@@ -118,6 +118,11 @@ class authController {
       if (!pass) {
          return next(new apiError('Your current password is wrong', 401));
       }
+      if (req.body.currentPassword === req.body.password) {
+         return next(
+            new apiError('You entered same new password as old password', 400)
+         );
+      }
 
       // 3) update password
       user.password = req.body.password;
