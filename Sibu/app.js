@@ -1,9 +1,10 @@
 const express = require('express');
+const app = express();
 const morgan = require('morgan');
 const apiError = require('./middleware/apiError.middleware');
 const globalErrorHandler = require('./controllers/apierror.controller');
-const app = express();
 
+/// ROUTE IMPORTING
 const tourRouter = require('./routes/tour.routes');
 const userRouter = require('./routes/user.routes');
 
@@ -16,41 +17,39 @@ if (process.env.NODE_ENV !== 'production') {
    // app.use(morgan('short'));
 }
 
-// Data Parser middleware
+// DATA PARSER MIDDLEWARE
 app.use(express.json());
+app.use(
+   express.urlencoded({
+      extended: false,
+   })
+);
+
+// PUBLISHING PUBLIC ASSETS
 app.use(express.static(`${__dirname}/public`));
 
-// Custom middle
+// 2) CUSTOM MIDDLEWARE
 app.use((req, res, next) => {
-   console.log('Hello from my own middleware 👋');
+   console.log('1. Hello from my own middleware 👋');
    next();
 });
 app.use((req, res, next) => {
    req.requestTime = new Date().toISOString();
-   console.log(req.requestTime);
-   // console.log(req.headers);
+   console.log('This request is initiated at: ' + req.requestTime);
    next();
 });
 
-// route mounting.
+// ROUTE MOUNTING
 app.use('/api/v1/tours', tourRouter);
 app.use('/api/v1/users', userRouter);
 
 // HANDLING UNDEFINED ROUTES
 app.all('*', (req, res, next) => {
-   // res.status(404).json({
-   //    status: 'fail',
-   //    message: `Can't find ${req.originalUrl} on this server!!`,
-   // });
-
-   // const err = new Error(`Can't find ${req.originalUrl} on this server!!`);
-   // err.status = 'fail';
-   // err.statusCode = 404;
-
    next(new apiError(`Can't find ${req.originalUrl} on this server!!`, 404));
 });
 
 // ERROR HANDLING MIDDLEWARE
+// HANDLING DIFFERENT UNHANDLED ERRORS THAT ARE CAUSED OUT OF EXPRESS
 app.use(globalErrorHandler);
 
 module.exports = app;
