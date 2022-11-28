@@ -1,26 +1,11 @@
 const catchAsync = require('../middleware/catchAsync');
 const userModel = require('./../models/user.model');
-const jwt = require('jsonwebtoken');
 const apiError = require('../middleware/apiError.middleware');
 const bcrypt = require('bcryptjs');
 const sendEmail = require('../middleware/email.middleware');
 const crypto = require('crypto');
-
-// JWT TOKEN GENERATION
-const signToken = (id) => {
-   return jwt.sign({ id }, process.env.JWT_SECRET, {
-      expiresIn: process.env.JWT_EXPIRES_IN,
-   });
-};
-const createAndSendSignToken = (user, statusCode, res) => {
-   const token = signToken(user._id);
-   res.status(statusCode).json({
-      status: 'success',
-      token,
-      data: user,
-   });
-};
-
+const jwtToken = require('./../middleware/JWT.middleware');
+const token = new jwtToken();
 class authController {
    signup = catchAsync(async (req, res, next) => {
       // const newUser = await userModel.create(req.body);
@@ -31,7 +16,7 @@ class authController {
          confirmPassword: req.body.confirmPassword,
          role: req.body.role,
       });
-      createAndSendSignToken(newUser, 201, res);
+      token.createAndSendSignToken(newUser, 201, res);
    });
 
    login = catchAsync(async (req, res, next) => {
@@ -56,7 +41,7 @@ class authController {
       }
 
       // 3) if data match with the data on db send JWT in response
-      createAndSendSignToken(user, 200, res);
+      token.createAndSendSignToken(user, 200, res);
    });
 
    forgetPassword = catchAsync(async (req, res, next) => {
@@ -118,7 +103,7 @@ class authController {
       await user.save();
 
       // 3) log the user in and send new JWT
-      createAndSendSignToken(user, 200, res);
+      token.createAndSendSignToken(user, 200, res);
    });
 
    updatePassword = catchAsync(async (req, res, next) => {
@@ -140,7 +125,7 @@ class authController {
       await user.save();
 
       // 4) logged user in and send JWT in response
-      createAndSendSignToken(user, 200, res);
+      token.createAndSendSignToken(user, 200, res);
    });
 }
 
