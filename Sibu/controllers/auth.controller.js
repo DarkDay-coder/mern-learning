@@ -12,6 +12,14 @@ const signToken = (id) => {
       expiresIn: process.env.JWT_EXPIRES_IN,
    });
 };
+const createAndSendSignToken = (user, statusCode, res) => {
+   const token = signToken(user._id);
+   res.status(statusCode).json({
+      status: 'success',
+      token,
+      data: user,
+   });
+};
 
 class authController {
    signup = catchAsync(async (req, res, next) => {
@@ -23,12 +31,7 @@ class authController {
          confirmPassword: req.body.confirmPassword,
          role: req.body.role,
       });
-      const token = signToken(newUser._id);
-      res.status(201).json({
-         status: 'success',
-         token,
-         user: newUser,
-      });
+      createAndSendSignToken(newUser, 201, res);
    });
 
    login = catchAsync(async (req, res, next) => {
@@ -53,11 +56,7 @@ class authController {
       }
 
       // 3) if data match with the data on db send JWT in response
-      const token = signToken(user._id);
-      res.status(200).json({
-         status: 'success login',
-         token,
-      });
+      createAndSendSignToken(user, 200, res);
    });
 
    forgetPassword = catchAsync(async (req, res, next) => {
@@ -119,12 +118,29 @@ class authController {
       await user.save();
 
       // 3) log the user in and send new JWT
-      const token = signToken(user._id);
+      createAndSendSignToken(user, 200, res);
+   });
 
-      res.status(200).json({
-         status: 'success',
-         token,
-      });
+   updatePassword = catchAsync(async (req, res, next) => {
+      // 1) Get user details from collection
+      const user = await userModel.findById(req.user.id).select('+password');
+
+      // 2) check current password is correct or not
+      const pass = await bcrypt.compare(
+         req.body.currentPassword,
+         user.password
+      );
+      if (!pass) {
+         return next(new apiError('Your current password is wrong', 401));
+      }
+
+      // 3) update password
+      user.password = req.body.password;
+      user.confirmPassword = req.body.confirmPassword;
+      await user.save();
+
+      // 4) logged user in and send JWT in response
+      createAndSendSignToken(user, 200, res);
    });
 }
 
