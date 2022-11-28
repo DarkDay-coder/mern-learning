@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 const apiError = require('../middleware/apiError.middleware');
 const bcrypt = require('bcryptjs');
 const sendEmail = require('../middleware/email.middleware');
+const crypto = require('crypto');
 
 // JWT TOKEN GENERATION
 const signToken = (id) => {
@@ -93,11 +94,38 @@ class authController {
          await user.save({ validateBeforeSave: false });
          return next(new apiError('there was an error sending the email', 500));
       }
-
-      next();
    });
 
-   resetPassword = (req, res, next) => {};
+   resetPassword = catchAsync(async (req, res, next) => {
+      // 1) Get user based on the token
+      const hashedToken = crypto
+         .createHash('sha256')
+         .update(req.params.token)
+         .digest('hex');
+
+      const user = await userModel.findOne({
+         passwordResetToken: hashedToken,
+         passwordResetExpires: { $gt: Date.now() },
+      });
+
+      // 2) Check whether the token is expired or not and the user exist or not
+      if (!user) {
+         return next(new apiError('Token is invalid or has expired', 400));
+      }
+      user.password = req.body.password;
+      user.confirmPassword = req.body.confirmPassword;
+      user.passwordResetToken = undefined;
+      user.passwordResetExpires = undefined;
+      await user.save();
+
+      // 3) log the user in and send new JWT
+      const token = signToken(user._id);
+
+      res.status(200).json({
+         status: 'success',
+         token,
+      });
+   });
 }
 
 module.exports = authController;
