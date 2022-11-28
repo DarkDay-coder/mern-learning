@@ -19,6 +19,7 @@ class authController {
          email: req.body.email,
          password: req.body.password,
          confirmPassword: req.body.confirmPassword,
+         role: req.body.role,
       });
       const token = signToken(newUser._id);
       res.status(201).json({
