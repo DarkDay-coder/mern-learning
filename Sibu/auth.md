@@ -30,3 +30,9 @@ Authentication
 ###
 
 Security
+
+Password reset function
+
+1. user sent forget password req with their email address
+2. create a reset token and send back to the email address provided
+3.
