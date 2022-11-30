@@ -36,7 +36,7 @@ class TourController {
 
    getTourById = catchAsync(async (req, res, next) => {
       console.log('requested data is having id: ' + req.params.id);
-      const tour = await TourModel.findById(req.params.id); // TourModel.findOne({_id : req.params.id})
+      const tour = await TourModel.findById(req.params.id).populate('reviews'); // TourModel.findOne({_id : req.params.id})
       console.log('here');
       if (!tour) {
          return next(new apiError('No tour found with that ID', 404));
