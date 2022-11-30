@@ -12,6 +12,7 @@ const globalErrorHandler = require('./controllers/apierror.controller');
 /// ROUTE IMPORTING
 const tourRouter = require('./routes/tour.routes');
 const userRouter = require('./routes/user.routes');
+const reviewRouter = require('./routes/review.route');
 
 // 1) GLOBAL MIDDLEWARE
 // Security http headers
@@ -80,6 +81,7 @@ app.use((req, res, next) => {
 // ROUTE MOUNTING
 app.use('/api/v1/tours', tourRouter);
 app.use('/api/v1/users', userRouter);
+app.use('/api/v1/reviews', reviewRouter);
 
 // HANDLING UNDEFINED ROUTES
 app.all('*', (req, res, next) => {
