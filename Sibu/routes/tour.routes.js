@@ -17,7 +17,11 @@ router.route('/monthly-plan/:year').get(tour_cont.getMonthlyPlan);
 router
    .route('/')
    .get(tour_cont.getAllTours)
-   .post(auth_mid.authorize, auth_mid.restrictTo, tour_cont.createTour);
+   .post(
+      auth_mid.authorize,
+      auth_mid.restrictTo(['admin', 'guide']),
+      tour_cont.createTour
+   );
 
 router
    .route('/:id')

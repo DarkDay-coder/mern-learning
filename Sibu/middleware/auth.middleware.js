@@ -43,6 +43,25 @@ class authMiddleware {
       next();
    });
 
+   restrictTo = (...roles) => {
+      console.log('we are under restriction section');
+      return (req, res, next) => {
+         // roles ['admin', 'lead-guide']. role='user'
+         const bool = roles.includes(req.user.role);
+         if (!bool) {
+            return next(
+               new apiError(
+                  'You do not have permission to perform this action',
+                  403
+               )
+            );
+         }
+
+         next();
+      };
+   };
+
+   /*
    restrictTo = catchAsync(async (req, res, next) => {
       // roles ['admin', 'lead-guide']  role = 'user'
       console.log(req.user.role);
@@ -62,6 +81,7 @@ class authMiddleware {
       console.log('restriction passed');
       next();
    });
+   */
 }
 
 module.exports = authMiddleware;
