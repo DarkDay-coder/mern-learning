@@ -116,7 +116,7 @@ const tourSchema = new mongoose.Schema(
          },
       ],
       // guides: Array,  // embedding
-      guides: [{ type: mongoose.Schema.ObjectId, ref: 'User' }],
+      guides: [{ type: mongoose.Schema.ObjectId, ref: 'user' }],
    },
    {
       toJSON: { virtuals: true },
