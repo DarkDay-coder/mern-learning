@@ -1,7 +1,4 @@
 const TourModel = require('./../models/tour.model');
-const fs = require('fs');
-const Tour = require('./../models/tour.model');
-const { query } = require('express');
 const APIFeatures = require('./../middleware/apiFeatures.middleware');
 const catchAsync = require('../middleware/catchAsync');
 const apiError = require('../middleware/apiError.middleware');
@@ -24,7 +21,7 @@ class TourController {
 
    getAllTours = catchAsync(async (req, res, next) => {
       console.log('Hello from getAllTours()');
-      const features = new APIFeatures(Tour.find(), req.query)
+      const features = new APIFeatures(TourModel.find(), req.query)
          .filter()
          .sort()
          .limitFields()
