@@ -1,17 +1,17 @@
 const router = require('express').Router({ mergeParams: true });
 const authMiddleware = require('../middleware/auth.middleware');
-const auth_mid = new authMiddleware();
+const auth_middleware = new authMiddleware();
 const reviewController = require('./../controllers/review.controller');
-const rev_cont = new reviewController();
+const review_controller = new reviewController();
 
 // CRUD operation
 router
    .route('/')
-   .get(rev_cont.getAllReviews)
+   .get(review_controller.getAllReviews)
    .post(
-      auth_mid.authorize,
-      auth_mid.restrictTo('user'),
-      rev_cont.createReview
+      auth_middleware.authorize,
+      auth_middleware.restrictTo('user'),
+      review_controller.createReview
    );
 
 router.route('/:id').get().patch().delete();
