@@ -116,7 +116,7 @@ const tourSchema = new mongoose.Schema(
          },
       ],
       // guides: Array,  // embedding
-      guides: [{ type: mongoose.Schema.ObjectId, ref: 'user' }],
+      guides: [{ type: mongoose.Schema.ObjectId, ref: 'User' }],
    },
    {
       toJSON: { virtuals: true },
@@ -139,6 +139,13 @@ tourSchema.pre('save', async function (next) {
       async (id) => await userModel.findById(id)
    );
    this.guides = await Promise.all(guidesPromise);
+   next();
+});
+tourSchema.pre(/^find/, function (next) {
+   this.populate({
+      path: 'guides',
+      select: '-__v -updatedAt -createdAt -active -role -email -_id',
+   });
    next();
 });
 
