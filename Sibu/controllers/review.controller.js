@@ -11,7 +11,6 @@ class reviewController {
    });
    getAllReviews = catchAsync(async (req, res, next) => {
       const reviews = await reviewModel.find();
-      console.log('we are exploring reviews collection from database');
       res.status(200).json({
          status: 'success',
          reviews,
