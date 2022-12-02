@@ -23,6 +23,12 @@ router
       '/deleteUser',
       auth_midddleware.authorize,
       user_controller.deleteUser
+   )
+   .get(
+      '/me',
+      auth_midddleware.authorize,
+      user_controller.findMe,
+      user_controller.getUserById
    );
 
 router

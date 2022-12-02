@@ -2,6 +2,7 @@ const apiError = require('../middleware/apiError.middleware');
 const catchAsync = require('../middleware/catchAsync');
 const UserModel = require('./../models/user.model');
 const handler = require('./../controllers/handlerFactory');
+const { findById } = require('../models/review.model');
 
 const filterObj = (obj, ...allowedFields) => {
    const newObj = {};
@@ -11,6 +12,10 @@ const filterObj = (obj, ...allowedFields) => {
    return newObj;
 };
 class UserController {
+   findMe = (req, res, next) => {
+      req.params.id = req.user.id;
+      next();
+   };
    getAllUsers = catchAsync(async (req, res, next) => {
       const users = await UserModel.find();
       res.status(200).json({
@@ -20,10 +25,18 @@ class UserController {
       });
    });
 
-   getUserById = (req, res) => {
-      res.status(500).json({
-         status: 'error',
-         message: 'This route is not defined yet',
+   getUserById = async (req, res, next) => {
+      const docs = await UserModel.findById(req.params.id).select(
+         '-createdAt -updatedAt -active -_id'
+      );
+      if (!docs) {
+         return next(
+            new apiError('doesnot find data about the requested id', 404)
+         );
+      }
+      res.status(200).json({
+         status: 'success',
+         data: docs,
       });
    };
 
