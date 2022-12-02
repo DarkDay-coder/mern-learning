@@ -77,6 +77,7 @@ class TourController {
    });
 
    // AGGREGATION PIPELINE
+
    getTourStats = catchAsync(async (req, res, next) => {
       const stats = await TourModel.aggregate([
          {

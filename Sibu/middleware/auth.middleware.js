@@ -2,7 +2,6 @@ const catchAsync = require('../middleware/catchAsync');
 const userModel = require('./../models/user.model');
 const jwt = require('jsonwebtoken');
 const apiError = require('../middleware/apiError.middleware');
-const apierrorController = require('../controllers/apierror.controller');
 
 class authMiddleware {
    authorize = catchAsync(async (req, res, next) => {
@@ -44,11 +43,13 @@ class authMiddleware {
    });
 
    restrictTo = (...roles) => {
-      console.log('we are under restriction section');
       return (req, res, next) => {
+         console.log('we now enter return block');
+         console.log(req.user.role);
          // roles ['admin', 'lead-guide']. role='user'
          const bool = roles.includes(req.user.role);
          if (!bool) {
+            console.log('we now enter boolean block ');
             return next(
                new apiError(
                   'You do not have permission to perform this action',
@@ -56,32 +57,27 @@ class authMiddleware {
                )
             );
          }
-
+         console.log('you passed restriction');
          next();
       };
    };
 
-   /*
-   restrictTo = catchAsync(async (req, res, next) => {
-      // roles ['admin', 'lead-guide']  role = 'user'
-      console.log(req.user.role);
-      // console.log(req.user.role === 'admin');
-      // console.log(!(req.user.role === 'admin'));
-
-      if (!(req.user.role === 'admin')) {
-         // || !req.user.role === 'lead-guide'
-         console.log('restriction failed');
-         return next(
-            new apiError(
-               'You do not have permission to perform this action',
-               403
-            )
-         );
-      }
-      console.log('restriction passed');
-      next();
-   });
-   */
+   // restrictTo = catchAsync(async (req, res, next) => {
+   //    // roles ['admin', 'lead-guide']  role = 'user'
+   //    console.log(req.user.role);
+   //    if (!(req.user.role === 'admin')) {
+   //       // || !req.user.role === 'lead-guide'
+   //       console.log('restriction failed');
+   //       return next(
+   //          new apiError(
+   //             'You do not have permission to perform this action',
+   //             403
+   //          )
+   //       );
+   //    }
+   //    console.log('restriction passed');
+   //    next();
+   // });
 }
 
 module.exports = authMiddleware;

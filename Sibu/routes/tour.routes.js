@@ -25,13 +25,12 @@ router
 router.route('/tour-stats').get(tour_controller.getTourStats);
 
 router.route('/monthly-plan/:year').get(tour_controller.getMonthlyPlan);
-
 router
    .route('/')
    .get(tour_controller.getAllTours)
    .post(
       auth_middleware.authorize,
-      auth_middleware.restrictTo(['admin', 'guide']),
+      auth_middleware.restrictTo('admin'),
       tour_controller.createTour
    );
 
@@ -45,7 +44,7 @@ router
    )
    .delete(
       auth_middleware.authorize,
-      auth_middleware.restrictTo,
+      auth_middleware.restrictTo('admin'),
       tour_controller.deleteTourById
    );
 

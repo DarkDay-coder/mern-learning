@@ -10,7 +10,7 @@ router
    .get(review_controller.getAllReviews)
    .post(
       auth_middleware.authorize,
-      auth_middleware.restrictTo('user'),
+      auth_middleware.restrictTo('user', 'guide'),
       review_controller.createReview
    );
 

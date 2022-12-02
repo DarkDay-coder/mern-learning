@@ -2,7 +2,11 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 dotenv.config({ path: './config.env' });
 const app = require('./app');
-
+//testing from ndb debugging
+// UNHANDLED REJECTION
+process.on('unhandledRejection', (err) => {
+   console.log(err.name, err.message);
+});
 console.log(app.get('env'));
 // const DB = 'mongodb://localhost:27017/Tour-project'
 const DB =
@@ -21,13 +25,6 @@ const port = process.env.PORT || 5000;
 app.listen(port, 'localhost', () => {
    console.log(`Server is running using port number: ${port}`);
    console.log(`app listening on endpoint ${port}`);
-});
-
-//testing from ndb debugging
-
-// UNHANDLED REJECTION
-process.on('unhandledRejection', (err) => {
-   console.log(err.name, err.message);
 });
 
 // UNCAUGHT EXCEPTION HANDLING
