@@ -39,7 +39,7 @@ router
    .get(tour_controller.getTourById)
    .patch(
       auth_middleware.authorize,
-      auth_middleware.restrictTo,
+      auth_middleware.restrictTo('admin'),
       tour_controller.updateTourById
    )
    .delete(

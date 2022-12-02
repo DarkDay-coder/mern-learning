@@ -2,6 +2,7 @@ const TourModel = require('./../models/tour.model');
 const APIFeatures = require('./../middleware/apiFeatures.middleware');
 const catchAsync = require('../middleware/catchAsync');
 const apiError = require('../middleware/apiError.middleware');
+const handler = require('./../controllers/handlerFactory');
 
 class TourController {
    aliasTopTours = (req, res, next) => {
@@ -64,17 +65,18 @@ class TourController {
       });
    });
 
-   deleteTourById = catchAsync(async (req, res, next) => {
-      console.log('the delete request is for id: ' + req.params.id);
-      const tour = await TourModel.findByIdAndDelete(req.params.id);
-      if (!tour) {
-         return next(new apiError('No tour found with that ID', 404));
-      }
-      res.status(204).json({
-         status: 'success',
-         data: null,
-      });
-   });
+   deleteTourById = handler.deleteOne(TourModel);
+   // deleteTourById = catchAsync(async (req, res, next) => {
+   //    console.log('the delete request is for id: ' + req.params.id);
+   //    const tour = await TourModel.findByIdAndDelete(req.params.id);
+   //    if (!tour) {
+   //       return next(new apiError('No tour found with that ID', 404));
+   //    }
+   //    res.status(204).json({
+   //       status: 'success',
+   //       data: null,
+   //    });
+   // });
 
    // AGGREGATION PIPELINE
 

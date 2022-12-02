@@ -17,8 +17,8 @@ class jwtToken {
          secure: false,
          httpOnly: true,
       };
-      if (process.env.NODE_ENV === 'production') cookieOptions.secure = true;
-      res.cookie('jwt', token, cookieOptions);
+      // if (process.env.NODE_ENV === 'production') cookieOptions.secure = true;
+      // res.cookie('jwt', token, cookieOptions);
 
       // HIDE PASSWORD FROM DISPLAYING
       user.password = undefined;

@@ -1,6 +1,7 @@
 const apiError = require('../middleware/apiError.middleware');
 const catchAsync = require('../middleware/catchAsync');
-const userModel = require('./../models/user.model');
+const UserModel = require('./../models/user.model');
+const handler = require('./../controllers/handlerFactory');
 
 const filterObj = (obj, ...allowedFields) => {
    const newObj = {};
@@ -11,7 +12,7 @@ const filterObj = (obj, ...allowedFields) => {
 };
 class UserController {
    getAllUsers = catchAsync(async (req, res, next) => {
-      const users = await userModel.find();
+      const users = await UserModel.find();
       res.status(200).json({
          status: 'success',
          results: users.length,
@@ -40,12 +41,14 @@ class UserController {
       });
    };
 
-   deleteUserById = (req, res) => {
-      res.status(500).json({
-         status: 'error',
-         message: 'This route is not defined yet',
-      });
-   };
+   deleteUserById = handler.deleteOne(UserModel);
+
+   // deleteUserById = (req, res) => {
+   //    res.status(500).json({
+   //       status: 'error',
+   //       message: 'This route is not defined yet',
+   //    });
+   // };
 
    updateUser = catchAsync(async (req, res, next) => {
       // 1) create erro if user posts password
@@ -62,7 +65,7 @@ class UserController {
       const filteredBody = filterObj(req.body, 'name', 'email');
 
       // 3) update user document
-      const updatedUser = await userModel.findByIdAndUpdate(
+      const updatedUser = await UserModel.findByIdAndUpdate(
          req.user.id,
          filteredBody,
          {
@@ -77,7 +80,7 @@ class UserController {
    });
 
    deleteUser = catchAsync(async (req, res, next) => {
-      await userModel.findByIdAndDelete(req.user.id);
+      await UserModel.findByIdAndDelete(req.user.id);
       res.status(204).json({
          status: 'success',
          data: null,

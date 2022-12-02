@@ -14,6 +14,14 @@ router
       review_controller.createReview
    );
 
-router.route('/:id').get().patch().delete();
+router
+   .route('/:id')
+   .get()
+   .patch()
+   .delete(
+      auth_middleware.authorize,
+      auth_middleware.restrictTo('admin'),
+      review_controller.deleteReviewById
+   );
 
 module.exports = router;
