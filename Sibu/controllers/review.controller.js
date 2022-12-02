@@ -33,6 +33,7 @@ class reviewController {
          data: review,
       });
    });
+   updateReviewById = handler.updateOne(ReviewModel);
    deleteReviewById = handler.deleteOne(ReviewModel);
 }
 module.exports = reviewController;

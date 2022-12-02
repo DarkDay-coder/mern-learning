@@ -33,22 +33,8 @@ class UserController {
          message: 'This route is not defined yet',
       });
    };
-
-   updateUserById = (req, res) => {
-      res.status(500).json({
-         status: 'error',
-         message: 'This route is not defined yet',
-      });
-   };
-
+   updateUserById = handler.updateOne(UserModel);
    deleteUserById = handler.deleteOne(UserModel);
-
-   // deleteUserById = (req, res) => {
-   //    res.status(500).json({
-   //       status: 'error',
-   //       message: 'This route is not defined yet',
-   //    });
-   // };
 
    updateUser = catchAsync(async (req, res, next) => {
       // 1) create erro if user posts password

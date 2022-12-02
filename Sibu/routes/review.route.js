@@ -17,7 +17,11 @@ router
 router
    .route('/:id')
    .get()
-   .patch()
+   .patch(
+      auth_middleware.authorize,
+      auth_middleware.restrictTo('admin'),
+      review_controller.updateReviewById
+   )
    .delete(
       auth_middleware.authorize,
       auth_middleware.restrictTo('admin'),
