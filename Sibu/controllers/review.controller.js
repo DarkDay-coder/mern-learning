@@ -4,15 +4,12 @@ const ReviewModel = require('./../models/review.model');
 const handler = require('./../controllers/handlerFactory');
 
 class reviewController {
-   createReview = catchAsync(async (req, res, next) => {
+   setUserTourId = (req, res, next) => {
       if (!req.body.tour) req.body.tour = req.params.tourId;
       if (!req.body.user) req.body.user = req.user.id;
-      const newReview = await ReviewModel.create(req.body);
-      res.status(201).json({
-         status: 'success',
-         data: newReview,
-      });
-   });
+      next();
+   };
+   createReview = handler.createOne(ReviewModel);
    getAllReviews = catchAsync(async (req, res, next) => {
       let filter = {};
       if (req.params.tourId) filter = { tour: req.params.tourId };

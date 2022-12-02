@@ -27,17 +27,12 @@ class UserController {
       });
    };
 
-   createUser = (req, res) => {
-      res.status(500).json({
-         status: 'error',
-         message: 'This route is not defined yet',
-      });
-   };
+   createUser = handler.createOne(UserModel);
    updateUserById = handler.updateOne(UserModel);
    deleteUserById = handler.deleteOne(UserModel);
 
    updateUser = catchAsync(async (req, res, next) => {
-      // 1) create erro if user posts password
+      // 1) create error if user posts password
       if (req.body.password || req.body.confirmPassword) {
          return next(
             new apiError(

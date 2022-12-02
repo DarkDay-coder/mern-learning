@@ -12,13 +12,45 @@ class TourController {
       req.query.fields = 'name, price, ratingAverage, summary, difficulty';
       next();
    };
-   createTour = catchAsync(async (req, res, next) => {
-      const newTour = await TourModel.create(req.body);
-      res.status(201).json({
-         status: 'success',
-         data: newTour,
-      });
-   });
+   createTour = handler.createOne(TourModel);
+   updateTourById = handler.updateOne(TourModel);
+   deleteTourById = handler.deleteOne(TourModel);
+
+   // createTour = catchAsync(async (req, res, next) => {
+   //    const newTour = await TourModel.create(req.body);
+   //    res.status(201).json({
+   //       status: 'success',
+   //       data: newTour,
+   //    });
+   // });
+
+   // updateTourById = catchAsync(async (req, res, next) => {
+   //    console.log('the update request is for id: ' + req.params.id);
+   //    const tour = await TourModel.findByIdAndUpdate(req.params.id, req.body, {
+   //       // upsert: true,
+   //       new: true,
+   //       runValidators: true,
+   //    });
+   //    if (!tour) {
+   //       return next(new apiError('No tour found with that ID', 404));
+   //    }
+   //    res.status(200).json({
+   //       status: 'success',
+   //       data: tour,
+   //    });
+   // });
+
+   // deleteTourById = catchAsync(async (req, res, next) => {
+   //    console.log('the delete request is for id: ' + req.params.id);
+   //    const tour = await TourModel.findByIdAndDelete(req.params.id);
+   //    if (!tour) {
+   //       return next(new apiError('No tour found with that ID', 404));
+   //    }
+   //    res.status(204).json({
+   //       status: 'success',
+   //       data: null,
+   //    });
+   // });
 
    getAllTours = catchAsync(async (req, res, next) => {
       console.log('Hello from getAllTours()');
@@ -48,37 +80,6 @@ class TourController {
          data: tour,
       });
    });
-
-   updateTourById = handler.updateOne(TourModel);
-   deleteTourById = handler.deleteOne(TourModel);
-
-   // updateTourById = catchAsync(async (req, res, next) => {
-   //    console.log('the update request is for id: ' + req.params.id);
-   //    const tour = await TourModel.findByIdAndUpdate(req.params.id, req.body, {
-   //       // upsert: true,
-   //       new: true,
-   //       runValidators: true,
-   //    });
-   //    if (!tour) {
-   //       return next(new apiError('No tour found with that ID', 404));
-   //    }
-   //    res.status(200).json({
-   //       status: 'success',
-   //       data: tour,
-   //    });
-   // });
-
-   // deleteTourById = catchAsync(async (req, res, next) => {
-   //    console.log('the delete request is for id: ' + req.params.id);
-   //    const tour = await TourModel.findByIdAndDelete(req.params.id);
-   //    if (!tour) {
-   //       return next(new apiError('No tour found with that ID', 404));
-   //    }
-   //    res.status(204).json({
-   //       status: 'success',
-   //       data: null,
-   //    });
-   // });
 
    // AGGREGATION PIPELINE
 

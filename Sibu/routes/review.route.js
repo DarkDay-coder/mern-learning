@@ -11,6 +11,7 @@ router
    .post(
       auth_middleware.authorize,
       auth_middleware.restrictTo('user', 'guide'),
+      review_controller.setUserTourId,
       review_controller.createReview
    );
 
