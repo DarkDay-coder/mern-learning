@@ -1,3 +1,4 @@
+const path = require('path');
 const express = require('express');
 const app = express();
 const morgan = require('morgan');
@@ -14,7 +15,14 @@ const tourRouter = require('./routes/tour.routes');
 const userRouter = require('./routes/user.routes');
 const reviewRouter = require('./routes/review.route');
 
+// VIEW ENGINE
+app.set('view engine', 'pug');
+app.set('views', path.join(__dirname, 'views'));
+
 // 1) GLOBAL MIDDLEWARE
+
+// PUBLISHING STATIC FILES
+app.use(express.static(path.join(__dirname, 'publi')));
 // Security http headers
 app.use(helmet());
 
@@ -63,9 +71,6 @@ app.use(
    })
 );
 
-// PUBLISHING STATIC FILES
-app.use(express.static(`${__dirname}/public`));
-
 // 2) CUSTOM MIDDLEWARE
 // test middleware
 app.use((req, res, next) => {
@@ -79,6 +84,9 @@ app.use((req, res, next) => {
 });
 
 // ROUTE MOUNTING
+app.get('/', (req, res) => {
+   res.status(200).render('base');
+});
 app.use('/api/v1/tours', tourRouter);
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/reviews', reviewRouter);
