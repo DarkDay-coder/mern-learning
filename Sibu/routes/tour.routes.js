@@ -1,29 +1,18 @@
 const express = require('express');
 const router = express.Router();
-const reviewController = require('./../controllers/review.controller');
-const review_controller = new reviewController();
 const TourController = require('./../controllers/tour.controller');
 const tour_controller = new TourController();
 const authMiddleware = require('./../middleware/auth.middleware');
 const auth_middleware = new authMiddleware();
 const reviewRouter = require('./review.route');
 
-// POST: /tour/tour-id/reviews
-// GET: /tour/tour-id/reviews
-// GET: /tour/tour-id/reviews/reviews-id
-// router
-//    .route('/:tourId/reviews')
-//    .post(authorize, restrictTo('user'), review_controller.createReview);
 router.use('/:tourId/reviews', reviewRouter);
 
 // CRUD operation
-
 router
    .route('/top-5-cheap')
    .get(tour_controller.aliasTopTours, tour_controller.getAllTours);
-
 router.route('/tour-stats').get(tour_controller.getTourStats);
-
 router
    .route('/monthly-plan/:year')
    .get(
@@ -39,7 +28,6 @@ router
       auth_middleware.restrictTo('lead-guide', 'admin'),
       tour_controller.createTour
    );
-
 router
    .route('/:id')
    .get(tour_controller.getTourById)
@@ -53,5 +41,4 @@ router
       auth_middleware.restrictTo('admin', 'lead-guide'),
       tour_controller.deleteTourById
    );
-
 module.exports = router;

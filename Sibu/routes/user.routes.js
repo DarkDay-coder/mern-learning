@@ -5,8 +5,6 @@ const AuthController = require('./../controllers/auth.controller');
 const auth_controller = new AuthController();
 const authMiddleware = require('./../middleware/auth.middleware');
 const auth_midddleware = new authMiddleware();
-const reviewController = require('./../controllers/review.controller');
-const review_controller = new reviewController();
 
 router
    .post('/signup', auth_controller.signup)

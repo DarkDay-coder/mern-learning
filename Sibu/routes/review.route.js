@@ -10,7 +10,7 @@ router
    .route('/')
    .get(review_controller.getAllReviews)
    .post(
-      auth_middleware.restrictTo('user', 'guide'),
+      auth_middleware.restrictTo('user'),
       review_controller.setUserTourId,
       review_controller.createReview
    );
@@ -19,11 +19,11 @@ router
    .route('/:id')
    .get(review_controller.getReviewById)
    .patch(
-      auth_middleware.restrictTo('admin'),
+      auth_middleware.restrictTo('admin', 'user'),
       review_controller.updateReviewById
    )
    .delete(
-      auth_middleware.restrictTo('admin'),
+      auth_middleware.restrictTo('admin', 'user'),
       review_controller.deleteReviewById
    );
 
