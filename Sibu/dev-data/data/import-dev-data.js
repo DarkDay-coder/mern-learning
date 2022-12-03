@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 const fs = require('fs');
+const UserModel = require('../../models/user.model');
+const ReviewModel = require('./../../models/review.model');
 const TourModel = require('./../../models/tour.model');
 // const DB = 'mongodb://localhost:27017/Tour-project'
 const DB =
@@ -14,12 +16,18 @@ mongoose.connect(DB, (err) => {
 });
 
 // READ JSON FILE
+const users = JSON.parse(fs.readFileSync(`${__dirname}/users.json`));
 const tours = JSON.parse(fs.readFileSync(`${__dirname}/tours.json`));
+const reviews = JSON.parse(fs.readFileSync(`${__dirname}/reviews.json`));
 
 // IMPORT DATA INTO DB
+
+// users data
 const importData = async () => {
    console.log('data insertion is in process');
    try {
+      // await UserModel.create(users, { validateBeforeSave: false });
+      // await ReviewModel.create(reviews);
       await TourModel.create(tours);
       console.log('data imported on database successfully 😎🤷‍♂️🤷‍♂️🙌🙌');
       process.exit();
@@ -29,10 +37,14 @@ const importData = async () => {
 };
 
 // DELETE ALL PREVIOUS DATA FROM OUR DATABASE
+
+// users data
 const deleteData = async () => {
    console.log('data deletion is in process');
    try {
-      await TourModel.deleteMany();
+      // await UserModel.deleteMany();
+      // await TourModel.deleteMany();
+      await ReviewModel.deleteMany();
       console.log('data deleted from database successfully 😎🤷‍♂️🤷‍♂️🙌🙌');
       process.exit();
    } catch (error) {
