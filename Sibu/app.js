@@ -28,12 +28,12 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 // Limit request from same IP
-const limiter = rateLimit({
-   max: 10,
-   windowMs: 3600000,
-   message: 'Too many request from this IP please try again in an hour',
-});
-app.use('/api', limiter);
+// const limiter = rateLimit({
+//    max: 10,
+//    windowMs: 3600000,
+//    message: 'Too many request from this IP please try again in an hour',
+// });
+// app.use('/api', limiter);
 
 // DATA PARSER MIDDLEWARE
 app.use(express.json({ limit: '10kb' }));

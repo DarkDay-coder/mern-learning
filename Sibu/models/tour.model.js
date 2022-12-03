@@ -123,6 +123,8 @@ const tourSchema = new mongoose.Schema(
       toObject: { virtuals: true },
    }
 );
+// indexing with own field
+tourSchema.index({ price: 1 });
 
 tourSchema.virtual('durationWeeks').get(function () {
    return this.duration / 7;
