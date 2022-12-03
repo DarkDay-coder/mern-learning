@@ -14,6 +14,7 @@ const globalErrorHandler = require('./controllers/apierror.controller');
 const tourRouter = require('./routes/tour.routes');
 const userRouter = require('./routes/user.routes');
 const reviewRouter = require('./routes/review.route');
+const viewRouter = require('./routes/view.route');
 
 // VIEW ENGINE
 app.set('view engine', 'pug');
@@ -84,22 +85,7 @@ app.use((req, res, next) => {
 });
 
 // ROUTE MOUNTING
-app.get('/', (req, res) => {
-   res.status(200).render('base', {
-      title: 'Home',
-      user: 'sibu',
-   });
-});
-app.get('/overview', (req, res) => {
-   res.status(200).render('overview', {
-      title: 'All Tours',
-   });
-});
-app.get('/tour', (req, res) => {
-   res.status(200).render('tour', {
-      title: 'The Forest Hiker',
-   });
-});
+app.use('/', viewRouter);
 app.use('/api/v1/tours', tourRouter);
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/reviews', reviewRouter);
