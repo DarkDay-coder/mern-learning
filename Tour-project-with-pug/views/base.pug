@@ -1,12 +1,18 @@
 doctype html 
 html 
    head 
-      title The Tour Guide 
-      link(rel="stylesheet" href='css/style.css')
-      link(rel="shortcut icon" type="image/png" href="img/favicon.png")   
+      title Tour Guide | #{tour}
+      link(rel="stylesheet" href='assets/css/style.css')
+      link(rel="shortcut icon" type="image/png" href='assets/img/favicon.png')   
+      
    body
-      h1 The Park Camper 
+      h1= tour
+      h2= user.toUpperCase()
+      - const x = 9;
+      h3= x*2
+      //- h1 The Park Camper 
       p Lorem ipsum dolor sit amet consectetur adipisicing elit. 
+      
 
 
 
