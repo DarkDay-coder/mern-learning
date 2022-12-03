@@ -12,25 +12,18 @@ router
    .post('/signup', auth_controller.signup)
    .post('/login', auth_controller.login)
    .post('/forgetPassword', auth_controller.forgetPassword)
-   .patch('/resetPassword/:token', auth_controller.resetPassword)
-   .patch(
-      '/updateMyPassword',
-      auth_midddleware.authorize,
-      auth_controller.updatePassword
-   )
-   .patch('/updateUser', auth_midddleware.authorize, user_controller.updateUser)
-   .delete(
-      '/deleteUser',
-      auth_midddleware.authorize,
-      user_controller.deleteUser
-   )
-   .get(
-      '/me',
-      auth_midddleware.authorize,
-      user_controller.findMe,
-      user_controller.getUserById
-   );
+   .patch('/resetPassword/:token', auth_controller.resetPassword);
 
+router
+   // protect all routes after this middleware
+   .use(auth_midddleware.authorize)
+   .patch('/updateMyPassword', auth_controller.updatePassword)
+   .patch('/updateUser', user_controller.updateUser)
+   .delete('/deleteUser', user_controller.deleteUser)
+   .get('/me', user_controller.findMe, user_controller.getUserById);
+
+// restrict to admin only
+router.use(auth_midddleware.restrictTo('admin'));
 router
    .route('/')
    .get(user_controller.getAllUsers)
