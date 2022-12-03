@@ -1,0 +1,21 @@
+mongoDB
+   it is an NoSQL database.
+   we find collections instead of tables. 
+   collections contains documents 
+   each documents contains data about single entity  
+   data are stored as json format that contains key value pairs
+   data in mongoDB is called BSON format i.e. each field has its data type 
+   
+Mongoose: 
+   it is an ODM library for mongoDB and node.js 
+   mongoose allows faster and simpler interaction with mongo server
+   
+Middleware in Mongoose:
+   mongoose middleware work similar to express middleware
+   there are 4 types of middleware in mongoose:
+      - documents  middleware => 
+      - query middleware
+      - aggregate middleware
+      - model  middleware
+   
+   

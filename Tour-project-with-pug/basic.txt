@@ -1,0 +1,3 @@
+API = applicatoin programming interface
+REST = represenatoin state transfer. RESTAPI are easy to consume 
+   
