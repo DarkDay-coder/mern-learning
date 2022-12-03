@@ -22,7 +22,7 @@ app.set('views', path.join(__dirname, 'views'));
 // 1) GLOBAL MIDDLEWARE
 
 // PUBLISHING STATIC FILES
-app.use(express.static(path.join(__dirname, 'publi')));
+app.use(express.static(path.join(__dirname, 'public')));
 // Security http headers
 app.use(helmet());
 
