@@ -2,7 +2,6 @@ const apiError = require('../middleware/apiError.middleware');
 const catchAsync = require('../middleware/catchAsync');
 const UserModel = require('./../models/user.model');
 const handler = require('./../controllers/handlerFactory');
-const { findById } = require('../models/review.model');
 
 const filterObj = (obj, ...allowedFields) => {
    const newObj = {};

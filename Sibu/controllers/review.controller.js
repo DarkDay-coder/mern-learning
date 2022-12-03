@@ -1,5 +1,5 @@
 //
-const catchAsync = require('../middleware/catchAsync');
+// const catchAsync = require('../middleware/catchAsync');
 const ReviewModel = require('./../models/review.model');
 const handler = require('./../controllers/handlerFactory');
 
