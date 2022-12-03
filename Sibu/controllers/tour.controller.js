@@ -15,7 +15,8 @@ class TourController {
    createTour = handler.createOne(TourModel);
    updateTourById = handler.updateOne(TourModel);
    deleteTourById = handler.deleteOne(TourModel);
-   // getTourById = handler.getOne(TourModel);
+   getTourById = handler.getOne(TourModel, { path: 'reviews' });
+   getAllTours = handler.getAll(TourModel);
 
    // createTour = catchAsync(async (req, res, next) => {
    //    const newTour = await TourModel.create(req.body);
@@ -53,36 +54,34 @@ class TourController {
    //    });
    // });
 
-   getTourById = catchAsync(async (req, res, next) => {
-      console.log('requested data is having id: ' + req.params.id);
-      const tour = await TourModel.findById(req.params.id).populate('reviews'); // TourModel.findOne({_id : req.params.id})
-      console.log('here');
-      if (!tour) {
-         return next(new apiError('No tour found with that ID', 404));
-      }
-      console.log('next here');
-      res.status(200).json({
-         status: 'succeed!',
-         data: tour,
-      });
-   });
+   // getTourById = catchAsync(async (req, res, next) => {
+   //    console.log('requested data is having id: ' + req.params.id);
+   //    const tour = await TourModel.findById(req.params.id).populate('reviews'); // TourModel.findOne({_id : req.params.id})
+   //    console.log('here');
+   //    if (!tour) {
+   //       return next(new apiError('No tour found with that ID', 404));
+   //    }
+   //    console.log('next here');
+   //    res.status(200).json({
+   //       status: 'succeed!',
+   //       data: tour,
+   //    });
+   // });
 
-   // getAllTours = handler.getAll(TourModel);
-
-   getAllTours = catchAsync(async (req, res, next) => {
-      console.log('Hello from getAllTours()');
-      const features = new APIFeatures(TourModel.find(), req.query)
-         .filter()
-         .sort()
-         .limitFields()
-         .pagination();
-      const tours = await features.query;
-      res.status(200).json({
-         status: 'succeed!',
-         result: tours.length,
-         data: tours,
-      });
-   });
+   // getAllTours = catchAsync(async (req, res, next) => {
+   //    console.log('Hello from getAllTours()');
+   //    const features = new APIFeatures(TourModel.find(), req.query)
+   //       .filter()
+   //       .sort()
+   //       .limitFields()
+   //       .pagination();
+   //    const tours = await features.query;
+   //    res.status(200).json({
+   //       status: 'succeed!',
+   //       result: tours.length,
+   //       data: tours,
+   //    });
+   // });
 
    // AGGREGATION PIPELINE
 

@@ -16,31 +16,33 @@ class UserController {
       req.params.id = req.user.id;
       next();
    };
-   getAllUsers = catchAsync(async (req, res, next) => {
-      const users = await UserModel.find();
-      res.status(200).json({
-         status: 'success',
-         results: users.length,
-         users,
-      });
-   });
+   // getAllUsers = catchAsync(async (req, res, next) => {
+   //    const users = await UserModel.find();
+   //    res.status(200).json({
+   //       status: 'success',
+   //       results: users.length,
+   //       users,
+   //    });
+   // });
 
-   getUserById = async (req, res, next) => {
-      const docs = await UserModel.findById(req.params.id).select(
-         '-createdAt -updatedAt -active -_id'
-      );
-      if (!docs) {
-         return next(
-            new apiError('doesnot find data about the requested id', 404)
-         );
-      }
-      res.status(200).json({
-         status: 'success',
-         data: docs,
-      });
-   };
+   // getUserById = async (req, res, next) => {
+   //    const docs = await UserModel.findById(req.params.id).select(
+   //       '-createdAt -updatedAt -active -_id'
+   //    );
+   //    if (!docs) {
+   //       return next(
+   //          new apiError('doesnot find data about the requested id', 404)
+   //       );
+   //    }
+   //    res.status(200).json({
+   //       status: 'success',
+   //       data: docs,
+   //    });
+   // };
 
    createUser = handler.createOne(UserModel);
+   getAllUsers = handler.getAll(UserModel);
+   getUserById = handler.getOne(UserModel);
    updateUserById = handler.updateOne(UserModel);
    deleteUserById = handler.deleteOne(UserModel);
 

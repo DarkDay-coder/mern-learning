@@ -17,7 +17,7 @@ router
 
 router
    .route('/:id')
-   .get()
+   .get(review_controller.getReviewById)
    .patch(
       auth_middleware.authorize,
       auth_middleware.restrictTo('admin'),
