@@ -5,10 +5,69 @@ const morgan = require('morgan');
 // const mongoSanitize = require('express-mongo-sanitize');
 // const xss = require('xss-clean');
 // const rateLimit = require('express-rate-limit');
-// const helmet = require('helmet');
+const helmet = require('helmet');
 // const hpp = require('hpp');
 const apiError = require('./middleware/apiError.middleware');
 const globalErrorHandler = require('./controllers/apierror.controller');
+
+const CSP = 'Content-Security-Policy';
+const POLICY =
+   "default-src 'self' https://*.mapbox.com ;" +
+   "base-uri 'self';block-all-mixed-content;" +
+   "font-src 'self' https: data:;" +
+   "frame-ancestors 'self';" +
+   "img-src http://localhost:8000 'self' blob: data:;" +
+   "object-src 'none';" +
+   "script-src https: cdn.jsdelivr.net cdnjs.cloudflare.com api.mapbox.com 'self' blob: ;" +
+   "script-src-attr 'none';" +
+   "style-src 'self' https: 'unsafe-inline';" +
+   'upgrade-insecure-requests;';
+
+const router = express.Router();
+
+router.use((req, res, next) => {
+   res.setHeader(CSP, POLICY);
+   next();
+});
+
+// const scriptSrcUrls = [
+//    'https://api.tiles.mapbox.com/',
+//    'https://api.mapbox.com/',
+// ];
+// const styleSrcUrls = [
+//    'https://api.mapbox.com/',
+//    'https://api.tiles.mapbox.com/',
+//    'https://fonts.googleapis.com/',
+// ];
+// const connectSrcUrls = [
+//    'https://api.mapbox.com/',
+//    'https://a.tiles.mapbox.com/',
+//    'https://b.tiles.mapbox.com/',
+//    'https://events.mapbox.com/',
+// ];
+// const fontSrcUrls = ['fonts.googleapis.com', 'fonts.gstatic.com'];
+// app.use(
+//    helmet.contentSecurityPolicy({
+//       directives: {
+//          defaultSrc: [],
+//          connectSrc: ["'self'", ...connectSrcUrls],
+//          scriptSrc: ["'self'", ...scriptSrcUrls],
+//          styleSrc: ["'self'", "'unsafe-inline'", ...styleSrcUrls],
+//          workerSrc: ["'self'", 'blob:'],
+//          objectSrc: [],
+//          imgSrc: ["'self'", 'blob:', 'data:'],
+//          fontSrc: ["'self'", ...fontSrcUrls],
+//       },
+//    })
+// );
+app.use(
+   helmet.contentSecurityPolicy({
+      useDefaults: true,
+      directives: {
+         'img-src': ["'self'", 'https: data:'],
+      },
+   })
+);
 
 /// ROUTE IMPORTING
 const tourRouter = require('./routes/tour.routes');
