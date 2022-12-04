@@ -1,12 +1,13 @@
 doctype html 
 html(lang='en')
-   head 
-      meta(charset='UTF-8')
-      meta(name='viewport' content='width=device-width, initial-scale=1.0')
-      link(rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,300i,700")
-      link(rel="stylesheet" href='/assets/css/style.css')
-      link(rel="shortcut icon" type="image/png" href='/assets/img/favicon.png')   
-      title Tour Guide | #{title} 
+   head
+      block head  
+         meta(charset='UTF-8')
+         meta(name='viewport' content='width=device-width, initial-scale=1.0')
+         link(rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,300i,700")
+         link(rel="stylesheet" href='/assets/css/style.css')
+         link(rel="shortcut icon" type="image/png" href='/assets/img/favicon.png')   
+         title Tour Guide | #{title} 
 
    body
       // HEADER SECTION
@@ -22,3 +23,6 @@ html(lang='en')
 
    // FOOTER SECTION
    include footer
+   
+   
+   script(src='/js/mapbox.js')

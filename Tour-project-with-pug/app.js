@@ -2,11 +2,11 @@ const path = require('path');
 const express = require('express');
 const app = express();
 const morgan = require('morgan');
-const mongoSanitize = require('express-mongo-sanitize');
-const xss = require('xss-clean');
-const rateLimit = require('express-rate-limit');
-const helmet = require('helmet');
-const hpp = require('hpp');
+// const mongoSanitize = require('express-mongo-sanitize');
+// const xss = require('xss-clean');
+// const rateLimit = require('express-rate-limit');
+// const helmet = require('helmet');
+// const hpp = require('hpp');
 const apiError = require('./middleware/apiError.middleware');
 const globalErrorHandler = require('./controllers/apierror.controller');
 
@@ -25,7 +25,7 @@ app.set('views', path.join(__dirname, 'views'));
 // PUBLISHING STATIC FILES
 app.use(express.static(path.join(__dirname, 'public')));
 // Security http headers
-app.use(helmet());
+// app.use(helmet());
 
 // development logging
 if (process.env.NODE_ENV !== 'production') {
@@ -53,24 +53,24 @@ app.use(
 );
 
 // DATA SANITIZATION AGAINST NoSQL QUERY INJECTION
-app.use(mongoSanitize());
+// app.use(mongoSanitize());
 
 // DATA SANITIZATION AGAINST XSS
-app.use(xss());
+// app.use(xss());
 
 // PREVENT PARAMETER POLLUTION
-app.use(
-   hpp({
-      whitelist: [
-         'duration',
-         'ratingQuantity',
-         'ratingsAverage',
-         'maxGroupSize',
-         'difficulty',
-         'price',
-      ],
-   })
-);
+// app.use(
+//    hpp({
+//       whitelist: [
+//          'duration',
+//          'ratingQuantity',
+//          'ratingsAverage',
+//          'maxGroupSize',
+//          'difficulty',
+//          'price',
+//       ],
+//    })
+// );
 
 // 2) CUSTOM MIDDLEWARE
 // test middleware
