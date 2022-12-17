@@ -44,6 +44,25 @@ class authMiddleware {
       next();
    });
 
+   isAuthorized = catchAsync(async (req, res, next) => {
+      // 1) Getting token and check if it exist or not
+      let token = '';
+      if (req.cookies.jwt) {
+         // 2) Verification of token
+         let verification = jwt.verify(token, process.env.JWT_SECRET);
+
+         // 3) Check if user still exist or not
+         const isUser = await userModel.findById(verification.id);
+         // console.log(isUser);
+         if (!isUser) {
+            return next();
+         }
+         res.locals.user = isUser;
+         next();
+      }
+      next();
+   });
+
    restrictTo = (...roles) => {
       return (req, res, next) => {
          console.log('we now enter return block');

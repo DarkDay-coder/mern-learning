@@ -9,6 +9,7 @@ const helmet = require('helmet');
 // const hpp = require('hpp');
 const apiError = require('./middleware/apiError.middleware');
 const globalErrorHandler = require('./controllers/apierror.controller');
+const cookieParser = require('cookie-parser');
 
 const CSP = 'Content-Security-Policy';
 const POLICY =
@@ -29,45 +30,6 @@ router.use((req, res, next) => {
    res.setHeader(CSP, POLICY);
    next();
 });
-
-// const scriptSrcUrls = [
-//    'https://api.tiles.mapbox.com/',
-//    'https://api.mapbox.com/',
-// ];
-// const styleSrcUrls = [
-//    'https://api.mapbox.com/',
-//    'https://api.tiles.mapbox.com/',
-//    'https://fonts.googleapis.com/',
-// ];
-// const connectSrcUrls = [
-//    'https://api.mapbox.com/',
-//    'https://a.tiles.mapbox.com/',
-//    'https://b.tiles.mapbox.com/',
-//    'https://events.mapbox.com/',
-// ];
-// const fontSrcUrls = ['fonts.googleapis.com', 'fonts.gstatic.com'];
-// app.use(
-//    helmet.contentSecurityPolicy({
-//       directives: {
-//          defaultSrc: [],
-//          connectSrc: ["'self'", ...connectSrcUrls],
-//          scriptSrc: ["'self'", ...scriptSrcUrls],
-//          styleSrc: ["'self'", "'unsafe-inline'", ...styleSrcUrls],
-//          workerSrc: ["'self'", 'blob:'],
-//          objectSrc: [],
-//          imgSrc: ["'self'", 'blob:', 'data:'],
-//          fontSrc: ["'self'", ...fontSrcUrls],
-//       },
-//    })
-// );
-app.use(
-   helmet.contentSecurityPolicy({
-      useDefaults: true,
-      directives: {
-         'img-src': ["'self'", 'https: data:'],
-      },
-   })
-);
 
 /// ROUTE IMPORTING
 const tourRouter = require('./routes/tour.routes');
@@ -110,7 +72,7 @@ app.use(
       extended: false,
    })
 );
-
+app.use(cookieParser());
 // DATA SANITIZATION AGAINST NoSQL QUERY INJECTION
 // app.use(mongoSanitize());
 
@@ -135,6 +97,7 @@ app.use(
 // test middleware
 app.use((req, res, next) => {
    console.log('1. Hello from my own middleware 👋');
+   console.log(req.cookies);
    next();
 });
 app.use((req, res, next) => {
