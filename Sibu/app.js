@@ -3,6 +3,7 @@ const app = express();
 const morgan = require('morgan');
 const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
+const cors = require('cors');
 const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
 const hpp = require('hpp');
@@ -17,6 +18,7 @@ const reviewRouter = require('./routes/review.route');
 // 1) GLOBAL MIDDLEWARE
 // Security http headers
 app.use(helmet());
+app.use(cors());
 
 // development logging
 if (process.env.NODE_ENV !== 'production') {
